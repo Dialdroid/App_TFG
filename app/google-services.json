@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "50695060740",
+    "project_id": "medicinapp-85950",
+    "storage_bucket": "medicinapp-85950.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:50695060740:android:a4606288d2c973113a6451",
+        "android_client_info": {
+          "package_name": "com.example.medicinapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "50695060740-5qo5acr3lj0mofta0dsofbnqbnjcfldo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.medicinapp",
+            "certificate_hash": "623b97899d9471a1c35ea3f19fe5bc684d636389"
+          }
+        },
+        {
+          "client_id": "50695060740-s0f6caltk179vmefbb33kh1f47jiuu0b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdHQ0IhEcMPSPfLra2k90ZMftcfeNMNZU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "50695060740-s0f6caltk179vmefbb33kh1f47jiuu0b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
