@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="@drawable/fondo"
     tools:context=".RegisterActivity">
 
     <LinearLayout
@@ -16,7 +17,6 @@
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:elevation="4dp"
-            app:shape_arc_cropDirection="outside"
             app:shape_arc_height="20dp"
             app:shape_arc_position="bottom"
             >
@@ -33,7 +33,7 @@
                 android:textColor="@color/white"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="20dp"
                 android:textSize="25dp"/>
 
             <ImageView
@@ -179,5 +179,13 @@
         android:layout_gravity="bottom"
         android:textColor="@color/white"
         android:layout_margin="20dp"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circleImageBack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_arrow_left_green_100"
+        app:civ_circle_background_color="@color/white"
+        android:layout_margin="15dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
