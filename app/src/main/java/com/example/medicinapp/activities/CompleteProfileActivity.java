@@ -3,6 +3,7 @@ package com.example.medicinapp.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -22,12 +23,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
+import dmax.dialog.SpotsDialog;
+
 public class CompleteProfileActivity extends AppCompatActivity {
 
     TextInputEditText mTextInputUserName;
     Button mButtonConfirm;
     AuthProvider mAuthProvider;
     UserProvider mUserProvider;
+    AlertDialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,12 @@ public class CompleteProfileActivity extends AppCompatActivity {
 
         mAuthProvider = new AuthProvider();
         mUserProvider = new UserProvider();
+
+        mDialog = new SpotsDialog.Builder()
+                .setContext(this)
+                .setMessage("Espere un momento")
+                .setCancelable(false)
+                .build();
 
         mButtonConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,10 +72,12 @@ public class CompleteProfileActivity extends AppCompatActivity {
         String id = mAuthProvider.getUID();
         User user = new User();
         user.setId(id);
+        mDialog.show();
         user.setUsername(userName);
         mUserProvider.updateUser(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
+                mDialog.dismiss();
                 if(task.isSuccessful()){
                     Intent intent = new Intent(CompleteProfileActivity.this, HomeActivity.class);
                     startActivity(intent);
