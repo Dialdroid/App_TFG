@@ -146,9 +146,9 @@ public class MainActivity extends AppCompatActivity {
                     map.put("email", email);
                     mFirestore.collection("Users").document(id).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
-                        public void onComplete(@NonNull Task<Void> task) {  
+                        public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
-                                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                                Intent intent = new Intent(MainActivity.this, CompleteProfileActivity.class);
                                 startActivity(intent); 
                             }
                             else {
