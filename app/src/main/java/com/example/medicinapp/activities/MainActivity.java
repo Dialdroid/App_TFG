@@ -12,7 +12,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.medicinapp.R;
+import com.example.medicinapp.models.User;
 import com.example.medicinapp.providers.AuthProvider;
+import com.example.medicinapp.providers.UserProvider;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     SignInButton mButtonGoogle;
     private GoogleSignInClient mGoogleSignInClient;
     private final int REQUEST_CODE_GOOGLE = 1;
-    FirebaseFirestore mFirestore;
+    UserProvider mUserProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         mButtonGoogle = findViewById(R.id.btnLoginGoogle);
 
         mAuthProvider = new AuthProvider();
-        mFirestore = FirebaseFirestore.getInstance();
+        mUserProvider = new UserProvider();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken("50695060740-s0f6caltk179vmefbb33kh1f47jiuu0b.apps.googleusercontent.com")
@@ -133,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkUserExist(final String id) {
-        mFirestore.collection("Users").document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        mUserProvider.getUser(id).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()){
@@ -141,9 +143,10 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                 }else{
                     String email = mAuthProvider.gerEmail();
-                    Map<String, Object> map = new HashMap<>();
-                    map.put("email", email);
-                    mFirestore.collection("Users").document(id).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    User user = new User();
+                    user.setEmail(email);
+                    user.setId(id);
+                    mUserProvider.create(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
