@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.medicinapp.R;
+import com.example.medicinapp.models.User;
+import com.example.medicinapp.providers.AuthProvider;
+import com.example.medicinapp.providers.UserProvider;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -23,8 +26,8 @@ public class CompleteProfileActivity extends AppCompatActivity {
 
     TextInputEditText mTextInputUserName;
     Button mButtonConfirm;
-    FirebaseAuth mAuth;
-    FirebaseFirestore mFirestore;
+    AuthProvider mAuthProvider;
+    UserProvider mUserProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +37,8 @@ public class CompleteProfileActivity extends AppCompatActivity {
         mTextInputUserName = findViewById(R.id.textInputUsername);
         mButtonConfirm = findViewById(R.id.btnConfirm);
 
-        mAuth = FirebaseAuth.getInstance();
-        mFirestore = FirebaseFirestore.getInstance();
+        mAuthProvider = new AuthProvider();
+        mUserProvider = new UserProvider();
 
         mButtonConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,11 +58,12 @@ public class CompleteProfileActivity extends AppCompatActivity {
 
     }
 
-    private void updateUser(final String username) {
-        String id = mAuth.getCurrentUser().getUid();
-        Map<String, Object> map = new HashMap<>();
-        map.put("username", username);
-        mFirestore.collection("Users").document(id).update(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+    private void updateUser(final String userName) {
+        String id = mAuthProvider.getUID();
+        User user = new User();
+        user.setId(id);
+        user.setUsername(userName);
+        mUserProvider.updateUser(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
