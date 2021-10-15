@@ -1,8 +1,10 @@
-package com.example.medicinapp;
+package com.example.medicinapp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.medicinapp.R;
 
 public class HomeActivity extends AppCompatActivity {
 
