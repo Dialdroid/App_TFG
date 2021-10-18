@@ -120,7 +120,6 @@ public class PostActivity extends AppCompatActivity {
                     openGallery(requestCode);
                 }
                 else if (which == 1){
-                    Toast.makeText(PostActivity.this, "GRRRRR", Toast.LENGTH_SHORT).show();
                     takePhoto();
                 }
             }
@@ -145,7 +144,6 @@ public class PostActivity extends AppCompatActivity {
                 Uri photoUri = FileProvider.getUriForFile(PostActivity.this, "com.example.medicinapp", photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                 startActivityForResult(takePictureIntent, PHOTO_REQUEST_CODE);
-                Toast.makeText(this, "AH", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -245,8 +243,7 @@ public class PostActivity extends AppCompatActivity {
             }
         }
         /*Selecion foto*/
-        if (requestCode == PHOTO_REQUEST_CODE && requestCode == RESULT_OK){
-            Toast.makeText(this, "AAAAAAAAAAAAAAAAAAAAH", Toast.LENGTH_SHORT).show();
+        if (requestCode == PHOTO_REQUEST_CODE && resultCode == RESULT_OK){
             Picasso.with(PostActivity.this).load(mPhotoPath).into(mImageViewPost);
         }
     }
