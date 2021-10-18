@@ -3,6 +3,7 @@ package com.example.medicinapp.activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -11,12 +12,17 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 import java.io.File;
+import java.io.IOException;
+import java.util.Date;
+
 import com.example.medicinapp.R;
 import com.example.medicinapp.models.Post;
 import com.example.medicinapp.providers.AuthProvider;
@@ -28,6 +34,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import dmax.dialog.SpotsDialog;
@@ -42,7 +49,6 @@ public class PostActivity extends AppCompatActivity {
     AuthProvider mAuthProvider;
     TextInputEditText mTextInputTitle;
     TextInputEditText mTextInputDescription;
-    private final int GALERY_REQUEST_CODE = 1;
     String mTitle = "";
     String mDescription = "";
     AlertDialog mDialog;
@@ -50,6 +56,12 @@ public class PostActivity extends AppCompatActivity {
     CharSequence options[];
     CircleImageView mCircleImageBack;
 
+    private final int GALERY_REQUEST_CODE = 1;
+    private final int PHOTO_REQUEST_CODE = 2;
+
+    String mAbsolutePhotoPath;
+    String mPhotoPath;
+    File mPhotoFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +120,7 @@ public class PostActivity extends AppCompatActivity {
                     openGallery(requestCode);
                 }
                 else if (which == 1){
+                    Toast.makeText(PostActivity.this, "GRRRRR", Toast.LENGTH_SHORT).show();
                     takePhoto();
                 }
             }
@@ -118,7 +131,35 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void takePhoto() {
-        Toast.makeText(this, "Tomar foto", Toast.LENGTH_SHORT).show();
+
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if(takePictureIntent.resolveActivity(getPackageManager()) != null){
+            File photoFile = null;
+            try {
+                photoFile = createPhotoFile();
+            } catch (Exception e) {
+                Toast.makeText(this, "Hubo un error con el archivo seleccionado" + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+
+            if(photoFile != null) {
+                Uri photoUri = FileProvider.getUriForFile(PostActivity.this, "com.example.medicinapp", photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                startActivityForResult(takePictureIntent, PHOTO_REQUEST_CODE);
+                Toast.makeText(this, "AH", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private File createPhotoFile() throws IOException {
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File photoFile = File.createTempFile(
+          new Date() + "_photo",
+                ".jpg",
+                storageDir
+        );
+        mPhotoPath = "file:" + photoFile.getAbsolutePath();
+        mAbsolutePhotoPath = photoFile.getAbsolutePath();
+        return photoFile;
     }
 
     private void clickPost() {
@@ -193,6 +234,7 @@ public class PostActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        /*Seleccion img galeria*/
         if(requestCode == GALERY_REQUEST_CODE && resultCode == RESULT_OK){
             try {
                 mImageFile = FileUtil.from(this, data.getData());
@@ -201,6 +243,11 @@ public class PostActivity extends AppCompatActivity {
                 Log.d("ERROR", "Se produjo un error " + e.getMessage());
                 Toast.makeText(this, "Se ha producido un error" + e.getMessage(), Toast.LENGTH_LONG).show();
             }
+        }
+        /*Selecion foto*/
+        if (requestCode == PHOTO_REQUEST_CODE && requestCode == RESULT_OK){
+            Toast.makeText(this, "AAAAAAAAAAAAAAAAAAAAH", Toast.LENGTH_SHORT).show();
+            Picasso.with(PostActivity.this).load(mPhotoPath).into(mImageViewPost);
         }
     }
 }
