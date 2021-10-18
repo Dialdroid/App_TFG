@@ -38,6 +38,11 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:28.4.1')
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-firestore'
+
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
+    implementation 'id.zelory:compressor:2.1.1'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+
     implementation 'com.google.android.gms:play-services-auth:19.2.0'
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'

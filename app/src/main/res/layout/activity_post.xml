@@ -43,6 +43,7 @@
                     app:cardCornerRadius="10dp">
 
                     <ImageView
+                        android:id="@+id/imageViewPost"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@drawable/logo_camera" />
