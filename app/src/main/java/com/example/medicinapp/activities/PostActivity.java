@@ -19,6 +19,7 @@ import com.example.medicinapp.providers.ImageProvider;
 import com.example.medicinapp.utils.FileUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.storage.UploadTask;
 
 public class PostActivity extends AppCompatActivity {
@@ -27,6 +28,8 @@ public class PostActivity extends AppCompatActivity {
     Button mButtonPost;
     File mImageFile;
     ImageProvider mImageProvider;
+    TextInputEditText mTextInputTitle;
+    TextInputEditText mTextInputDescription;
     private final int GALERY_REQUEST_CODE = 1;
 
 
