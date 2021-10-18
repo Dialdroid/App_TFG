@@ -6,18 +6,17 @@ public class Post {
     private String title;
     private String description;
     private String image;
-    private String category;
-
-    public Post(){
+    private String idUser;
+    public Post() {
 
     }
 
-    public Post(String id, String title, String description, String image, String category) {
+    public Post(String id, String title, String description, String image, String idUser, String category) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.image = image;
-        this.category = category;
+        this.idUser = idUser;
     }
 
     public String getId() {
@@ -52,11 +51,11 @@ public class Post {
         this.image = image;
     }
 
-    public String getCategory() {
-        return category;
+    public String getIdUser() {
+        return idUser;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
     }
 }
