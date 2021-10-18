@@ -166,8 +166,13 @@ public class PostActivity extends AppCompatActivity {
         mDescription = mTextInputDescription.getText().toString();
         if(!mTitle.isEmpty() && !mDescription.isEmpty()) {
             if(mImageFile != null) {
-                saveImage();
-            } else {
+                saveImage(mImageFile);
+            }
+            else if(mPhotoFile != null) {
+                saveImage(mPhotoFile);
+            }
+
+            else {
                 Toast.makeText(this, "Debes seleccionar una imagen", Toast.LENGTH_SHORT).show();
             }
         } else {
@@ -175,7 +180,7 @@ public class PostActivity extends AppCompatActivity {
         }
     }
 
-    private void saveImage() {
+    private void saveImage(File mImageFile) {
         mDialog.show();
         mImageProvider.save(PostActivity.this, mImageFile).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -235,6 +240,7 @@ public class PostActivity extends AppCompatActivity {
         /*Seleccion img galeria*/
         if(requestCode == GALERY_REQUEST_CODE && resultCode == RESULT_OK){
             try {
+                mPhotoFile = null;
                 mImageFile = FileUtil.from(this, data.getData());
                 mImageViewPost.setImageBitmap(BitmapFactory.decodeFile(mImageFile.getAbsolutePath()));
             } catch (Exception e) {
@@ -244,6 +250,8 @@ public class PostActivity extends AppCompatActivity {
         }
         /*Selecion foto*/
         if (requestCode == PHOTO_REQUEST_CODE && resultCode == RESULT_OK){
+            mImageFile = null;
+            mPhotoFile = new File(mAbsolutePhotoPath);
             Picasso.with(PostActivity.this).load(mPhotoPath).into(mImageViewPost);
         }
     }
