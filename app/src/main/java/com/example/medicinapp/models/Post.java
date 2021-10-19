@@ -12,7 +12,7 @@ public class Post {
 
     }
 
-    public Post(String id, String title, String description, String image, String idUser, String category, long timestamp) {
+    public Post(String id, String title, String description, String image, String idUser, long timestamp) {
         this.id = id;
         this.title = title;
         this.description = description;
