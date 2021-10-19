@@ -20,6 +20,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -72,6 +73,7 @@ public class CompleteProfileActivity extends AppCompatActivity {
         String id = mAuthProvider.getUID();
         User user = new User();
         user.setId(id);
+        user.setTimestamp(new Date().getTime());
         mDialog.show();
         user.setUsername(userName);
         mUserProvider.updateUser(user).addOnCompleteListener(new OnCompleteListener<Void>() {
