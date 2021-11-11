@@ -6,6 +6,8 @@ public class User {
     private String email;
     private String username;
     private long timestamp;
+    private String imageProfile;
+    private String imageCover;
     public User() {
 
     }
@@ -14,6 +16,8 @@ public class User {
         this.email = email;
         this.username = username;
         this.timestamp = timestamp;
+        this.imageProfile = imageProfile;
+        this.imageCover = imageCover;
     }
 
     public String getId() {
@@ -46,5 +50,21 @@ public class User {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getImageProfile() {
+        return imageProfile;
+    }
+
+    public void setImageProfile(String imageProfile) {
+        this.imageProfile = imageProfile;
+    }
+
+    public String getImageCover() {
+        return imageCover;
+    }
+
+    public void setImageCover(String imageCover) {
+        this.imageCover = imageCover;
     }
 }

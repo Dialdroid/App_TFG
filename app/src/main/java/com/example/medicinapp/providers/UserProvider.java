@@ -6,6 +6,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +30,15 @@ public class UserProvider {
         Map<String, Object> map = new HashMap<>();
         map.put("username", user.getUsername());
         map.put("timestamp", user.getTimestamp());
+        return mCollection.document(user.getId()).update(map);
+    }
+
+    public Task<Void> update(User user) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("username", user.getUsername());
+        map.put("timestamp", new Date().getTime());
+        map.put("image_profile", user.getImageProfile());
+        map.put("image_cover", user.getImageCover());
         return mCollection.document(user.getId()).update(map);
     }
 

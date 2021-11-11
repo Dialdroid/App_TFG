@@ -59,6 +59,7 @@ public class PostActivity extends AppCompatActivity {
     private final int GALERY_REQUEST_CODE = 1;
     private final int PHOTO_REQUEST_CODE = 2;
 
+
     String mAbsolutePhotoPath;
     String mPhotoPath;
     File mPhotoFile;
