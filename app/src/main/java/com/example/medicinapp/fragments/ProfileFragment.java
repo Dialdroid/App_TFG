@@ -12,12 +12,19 @@ import android.widget.LinearLayout;
 
 import com.example.medicinapp.R;
 import com.example.medicinapp.activities.EditProfileActivity;
+import com.example.medicinapp.providers.AuthProvider;
+import com.example.medicinapp.providers.UserProvider;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 
 public class ProfileFragment extends Fragment {
 
     LinearLayout mLinearLayoutEditProfile;
     View mView;
+
+    UserProvider  mUserProvider;
+    AuthProvider mAuthProvider;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -35,11 +42,28 @@ public class ProfileFragment extends Fragment {
                 goToEditProfile();
             }
         });
+
+        mUserProvider = new UserProvider();
+        mAuthProvider = new AuthProvider();
+
         return mView;
     }
 
     private void goToEditProfile() {
         Intent intent = new Intent(getContext(), EditProfileActivity.class);
         startActivity(intent);
+    }
+
+    private void getUser(){
+        mUserProvider.getUser(mAuthProvider.getUID()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(documentSnapshot.exists()){
+                    if(documentSnapshot.contains("email")){
+                        String email = documentSnapshot.getString("email");
+                    }
+                }
+            }
+        });
     }
 }

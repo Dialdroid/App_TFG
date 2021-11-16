@@ -20,7 +20,8 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@color/white">
 
                 <View
                     android:layout_width="match_parent"
@@ -29,6 +30,7 @@
 
 
                 <ImageView
+                    android:id="@+id/imageViewCover"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:src="@drawable/fondo"
@@ -38,6 +40,7 @@
                     android:transitionName="@string/transitionname_picture"/>
 
                 <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/circleImageProfile"
                     android:layout_width="match_parent"
                     android:layout_height="140dp"
                     android:src="@drawable/ic_register_white"
@@ -57,6 +60,7 @@
                     android:gravity="center">
 
                     <TextView
+                        android:id="@+id/TextViewPostNumber"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
@@ -82,18 +86,20 @@
                     android:gravity="center">
 
                         <TextView
+                            android:id="@+id/textViewUsername"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="NOMBRE DEL USUARIO"
-                            android:textColor="@color/white"
+                            android:textColor="@color/black"
                             android:textSize="20dp"
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/textViewEmail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="correo@algo.com"
-                            android:textColor="@color/white"
+                            android:textColor="@color/gray"
                             android:textStyle="bold"
                             android:layout_marginTop="7dp"
                             android:textSize="15dp"/>
