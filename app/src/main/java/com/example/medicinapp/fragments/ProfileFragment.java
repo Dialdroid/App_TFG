@@ -18,6 +18,7 @@ import com.example.medicinapp.providers.AuthProvider;
 import com.example.medicinapp.providers.UserProvider;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -29,8 +30,8 @@ public class ProfileFragment extends Fragment {
     TextView mTextViewUsername;
     TextView mTexViewEmail;
     TextView mTextViewPostNumber;
-    ImageView mImageViewViewCover;
-    CircleImageView mImageViewProfile;
+    ImageView mImageViewCover;
+    CircleImageView mCircleImageProfile;
 
     UserProvider  mUserProvider;
     AuthProvider mAuthProvider;
@@ -48,8 +49,8 @@ public class ProfileFragment extends Fragment {
         mTextViewUsername = mView.findViewById(R.id.textViewUsername);
         mTexViewEmail = mView.findViewById(R.id.textViewEmail);
         mTextViewPostNumber = mView.findViewById(R.id.textViewPostNumber);
-        mImageViewViewCover = mView.findViewById(R.id.imageViewCover);
-        mImageViewProfile = mView.findViewById(R.id.circleImageProfile);
+        mImageViewCover = mView.findViewById(R.id.imageViewCover);
+        mCircleImageProfile = mView.findViewById(R.id.circleImageProfile);
         mLinearLayoutEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,6 +77,27 @@ public class ProfileFragment extends Fragment {
                 if(documentSnapshot.exists()){
                     if(documentSnapshot.contains("email")){
                         String email = documentSnapshot.getString("email");
+                        mTexViewEmail.setText(email);
+                    }
+                    if(documentSnapshot.contains("username")){
+                        String username = documentSnapshot.getString("username");
+                        mTextViewUsername.setText(username);
+                    }
+                    if(documentSnapshot.contains("image_profile")){
+                        String imageProfile = documentSnapshot.getString("image_profile");
+                        if(imageProfile != null) {
+                            if(!imageProfile.isEmpty()){
+                                Picasso.with(getContext()).load(imageProfile).into(mCircleImageProfile);
+                            }
+                        }
+                    }
+                    if(documentSnapshot.contains("image_cover")){
+                        String imageCover = documentSnapshot.getString("image_cover");
+                        if(imageCover != null) {
+                            if(!imageCover.isEmpty()){
+                                Picasso.with(getContext()).load(imageCover).into(mImageViewCover);
+                            }
+                        }
                     }
                 }
             }
