@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.medicinapp.R;
 import com.example.medicinapp.activities.EditProfileActivity;
@@ -17,11 +19,18 @@ import com.example.medicinapp.providers.UserProvider;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class ProfileFragment extends Fragment {
 
-    LinearLayout mLinearLayoutEditProfile;
     View mView;
+    LinearLayout mLinearLayoutEditProfile;
+    TextView mTextViewUsername;
+    TextView mTexViewEmail;
+    TextView mTextViewPostNumber;
+    ImageView mImageViewViewCover;
+    CircleImageView mImageViewProfile;
 
     UserProvider  mUserProvider;
     AuthProvider mAuthProvider;
@@ -36,6 +45,11 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_profile, container, false);
         mLinearLayoutEditProfile = mView.findViewById(R.id.linearLayoutEditProfile);
+        mTextViewUsername = mView.findViewById(R.id.textViewUsername);
+        mTexViewEmail = mView.findViewById(R.id.textViewEmail);
+        mTextViewPostNumber = mView.findViewById(R.id.textViewPostNumber);
+        mImageViewViewCover = mView.findViewById(R.id.imageViewCover);
+        mImageViewProfile = mView.findViewById(R.id.circleImageProfile);
         mLinearLayoutEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,6 +60,7 @@ public class ProfileFragment extends Fragment {
         mUserProvider = new UserProvider();
         mAuthProvider = new AuthProvider();
 
+        getUser();
         return mView;
     }
 
