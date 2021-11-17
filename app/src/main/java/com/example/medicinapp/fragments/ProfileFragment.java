@@ -15,9 +15,11 @@ import android.widget.TextView;
 import com.example.medicinapp.R;
 import com.example.medicinapp.activities.EditProfileActivity;
 import com.example.medicinapp.providers.AuthProvider;
+import com.example.medicinapp.providers.PostProvider;
 import com.example.medicinapp.providers.UserProvider;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -35,6 +37,7 @@ public class ProfileFragment extends Fragment {
 
     UserProvider  mUserProvider;
     AuthProvider mAuthProvider;
+    PostProvider mPostProvider;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -60,14 +63,26 @@ public class ProfileFragment extends Fragment {
 
         mUserProvider = new UserProvider();
         mAuthProvider = new AuthProvider();
+        mPostProvider = new PostProvider();
 
         getUser();
+        getPostNumber();
         return mView;
     }
 
     private void goToEditProfile() {
         Intent intent = new Intent(getContext(), EditProfileActivity.class);
         startActivity(intent);
+    }
+
+    private void getPostNumber(){
+        mPostProvider.getPostbyUser(mAuthProvider.getUID()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                int numberPost = queryDocumentSnapshots.size();
+                mTextViewPostNumber.setText(String.valueOf(numberPost));
+            }
+        });
     }
 
     private void getUser(){

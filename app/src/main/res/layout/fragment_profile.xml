@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:fitsSystemWindows="true"
     tools:context=".fragments.ProfileFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -35,7 +34,7 @@
                     android:layout_height="200dp"
                     android:src="@drawable/fondo"
                     android:scaleType="centerCrop"
-                    android:alpha="0.8"
+                    android:alpha="0.5"
                     app:layout_collapseMode="parallax"
                     android:transitionName="@string/transitionname_picture"/>
 
