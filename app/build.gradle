@@ -38,6 +38,8 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:28.4.1')
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-firestore'
+    implementation 'com.github.smarteist:autoimageslider:1.4.0'
+
 
     implementation 'com.google.firebase:firebase-storage:19.1.1'
     implementation 'id.zelory:compressor:2.1.1'
