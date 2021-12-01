@@ -3,6 +3,7 @@ package com.example.medicinapp.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ public class UserProfileActivity extends AppCompatActivity {
     TextView mTextViewPostNumber;
     ImageView mImageViewCover;
     CircleImageView mCircleImageProfile;
+    CircleImageView mCircleImageViewBack;
 
     UserProvider mUserProvider;
     AuthProvider mAuthProvider;
@@ -44,12 +46,20 @@ public class UserProfileActivity extends AppCompatActivity {
         mTextViewPostNumber = findViewById(R.id.textViewPostNumber);
         mImageViewCover = findViewById(R.id.imageViewCover);
         mCircleImageProfile = findViewById(R.id.circleImageProfile);
+        mCircleImageViewBack = findViewById(R.id.circleImageBack);
 
         mUserProvider = new UserProvider();
         mAuthProvider = new AuthProvider();
         mPostProvider = new PostProvider();
 
         mExtraIdUser = getIntent().getStringExtra("idUser");
+
+        mCircleImageViewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         getUser();
         getPostNumber();
