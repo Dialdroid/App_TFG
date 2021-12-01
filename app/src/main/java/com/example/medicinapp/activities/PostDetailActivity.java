@@ -2,8 +2,10 @@ package com.example.medicinapp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -41,6 +43,9 @@ public class PostDetailActivity extends AppCompatActivity {
     TextView mTextViewUsername;
     CircleImageView mCircleImageViewProfile;
     Button mButtonShowProfile;
+    CircleImageView mCircleImageViewBack;
+
+    String mIdUser = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +58,7 @@ public class PostDetailActivity extends AppCompatActivity {
         mTextViewUsername = findViewById(R.id.textViewUsername);
         mCircleImageViewProfile = findViewById(R.id.circleImageProfile);
         mButtonShowProfile = findViewById(R.id.btnShowProfile);
+        mCircleImageViewBack = findViewById(R.id.circleImageBack);
 
         mPostProvider = new PostProvider();
         mUsersProvider = new UserProvider();
@@ -60,6 +66,31 @@ public class PostDetailActivity extends AppCompatActivity {
         mExtraPostId = getIntent().getStringExtra("id");
 
         getPost();
+
+        mCircleImageViewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        mButtonShowProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToShowProfile();
+            }
+        });
+    }
+
+    private void goToShowProfile() {
+        if(!mIdUser.equals("")){
+            Intent intent = new Intent(PostDetailActivity.this, UserProfileActivity.class);
+            intent.putExtra("idUser", mIdUser);
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "El id del usuario aun no ha cargado", Toast.LENGTH_LONG).show();
+        }
+
     }
 
     private void instanceSlider() {
@@ -102,8 +133,8 @@ public class PostDetailActivity extends AppCompatActivity {
                         mTextViewDescription.setText(description);
                     }
                     if (documentSnapshot.contains("idUser")) {
-                        String idUser = documentSnapshot.getString("idUser");
-                        getUserInfo(idUser);
+                        mIdUser = documentSnapshot.getString("idUser");
+                        getUserInfo(mIdUser);
                     }
 
                     instanceSlider();

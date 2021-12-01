@@ -141,6 +141,12 @@
 
     </ScrollView>
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circleImageBack"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:src="@drawable/ic_arrow_white_2"/>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
