@@ -5,18 +5,21 @@ public class Post {
     private String id;
     private String title;
     private String description;
-    private String image;
+    private String image1;
+    private String image2;
     private String idUser;
     private long timestamp;
+
     public Post() {
 
     }
 
-    public Post(String id, String title, String description, String image, String idUser, long timestamp) {
+    public Post(String id, String title, String description, String image1, String image2, String idUser, long timestamp) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.image = image;
+        this.image1 = image1;
+        this.image2 = image2;
         this.idUser = idUser;
         this.timestamp = timestamp;
     }
@@ -45,12 +48,20 @@ public class Post {
         this.description = description;
     }
 
-    public String getImage() {
-        return image;
+    public String getImage1() {
+        return image1;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImage1(String image1) {
+        this.image1 = image1;
+    }
+
+    public String getImage2() {
+        return image2;
+    }
+
+    public void setImage2(String image2) {
+        this.image2 = image2;
     }
 
     public String getIdUser() {
@@ -60,6 +71,7 @@ public class Post {
     public void setIdUser(String idUser) {
         this.idUser = idUser;
     }
+
 
     public long getTimestamp() {
         return timestamp;
