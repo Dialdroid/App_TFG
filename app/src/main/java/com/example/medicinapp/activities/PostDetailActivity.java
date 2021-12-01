@@ -35,40 +35,46 @@ public class PostDetailActivity extends AppCompatActivity {
 
         mSliderView = findViewById(R.id.imageSlider);
         mPostProvider = new PostProvider();
+
         mExtraPostId = getIntent().getStringExtra("id");
-
-
 
         getPost();
     }
 
-    private void instanceSlider(){
+    private void instanceSlider() {
         mSliderAdapter = new SliderAdapter(PostDetailActivity.this, mSliderItems);
         mSliderView.setSliderAdapter(mSliderAdapter);
         mSliderView.setIndicatorAnimation(IndicatorAnimationType.THIN_WORM);
         mSliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
         mSliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
         mSliderView.setIndicatorSelectedColor(Color.WHITE);
-        mSliderView.setIndicatorSelectedColor(Color.GRAY);
+        mSliderView.setIndicatorUnselectedColor(Color.GRAY);
         mSliderView.setScrollTimeInSec(3);
         mSliderView.setAutoCycle(true);
         mSliderView.startAutoCycle();
-        Toast.makeText(this, "GRRRRRRRRRRR", Toast.LENGTH_SHORT).show();
     }
 
     private void getPost() {
         mPostProvider.getPostById(mExtraPostId).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if(documentSnapshot.exists()) {
-                    if(documentSnapshot.contains("image")){
-                        String image = documentSnapshot.getString("image");
+                if (documentSnapshot.exists()) {
+
+                    if (documentSnapshot.contains("image1")) {
+                        String image1 = documentSnapshot.getString("image1");
                         SliderItem item = new SliderItem();
-                        item.setImageURL(image);
+                        item.setImageURL(image1);
                         mSliderItems.add(item);
                     }
+                    if (documentSnapshot.contains("image2")) {
+                        String image2 = documentSnapshot.getString("image2");
+                        SliderItem item = new SliderItem();
+                        item.setImageURL(image2);
+                        mSliderItems.add(item);
+                    }
+
+                    instanceSlider();
                 }
-                instanceSlider();
             }
         });
     }

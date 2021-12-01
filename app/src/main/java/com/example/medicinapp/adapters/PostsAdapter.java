@@ -25,7 +25,7 @@ public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.Vi
 
     Context context;
 
-    public PostsAdapter(FirestoreRecyclerOptions<Post> options,  Context context) {
+    public PostsAdapter(FirestoreRecyclerOptions<Post> options, Context context) {
         super(options);
         this.context = context;
     }
@@ -45,7 +45,7 @@ public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.Vi
         }
         holder.viewHolder.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 Intent intent = new Intent(context, PostDetailActivity.class);
                 intent.putExtra("id", postId);
                 context.startActivity(intent);
@@ -73,7 +73,6 @@ public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.Vi
             imageViewPost = view.findViewById(R.id.imageViewPostCard);
             viewHolder = view;
         }
-
     }
 
 }

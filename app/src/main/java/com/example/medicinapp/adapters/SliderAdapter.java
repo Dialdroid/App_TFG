@@ -21,6 +21,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
 
     public SliderAdapter(Context context, List<SliderItem> sliderItems) {
         this.context = context;
+        mSliderItems = sliderItems;
     }
 
 
@@ -34,7 +35,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
     public void onBindViewHolder(SliderAdapterVH viewHolder, final int position) {
 
         SliderItem sliderItem = mSliderItems.get(position);
-        if(sliderItem.getImageURL() != null) {
+        if (sliderItem.getImageURL() != null) {
             if (!sliderItem.getImageURL().isEmpty()) {
                 Picasso.with(context).load(sliderItem.getImageURL()).into(viewHolder.imageViewSlider);
             }
