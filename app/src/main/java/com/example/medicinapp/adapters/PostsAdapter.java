@@ -13,8 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.medicinapp.activities.PostDetailActivity;
+import com.example.medicinapp.models.Like;
 import com.example.medicinapp.models.Post;
 import com.example.medicinapp.R;
+import com.example.medicinapp.providers.LikesProvider;
 import com.example.medicinapp.providers.PostProvider;
 import com.example.medicinapp.providers.UserProvider;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -23,20 +25,24 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.squareup.picasso.Picasso;
 
+import java.util.Date;
+
 
 public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.ViewHolder> {
 
     Context context;
     UserProvider mUserProvider;
+    LikesProvider mLikesProvider;
 
     public PostsAdapter(FirestoreRecyclerOptions<Post> options, Context context) {
         super(options);
         this.context = context;
         mUserProvider = new UserProvider();
+        mLikesProvider = new LikesProvider();
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull Post post) {
+    protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull final Post post) {
 
         DocumentSnapshot document = getSnapshots().getSnapshot(position);
         final String postId = document.getId();
@@ -57,7 +63,24 @@ public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.Vi
             }
         });
 
+        holder.imageViewLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Like like = new Like();
+                like.setIdUser(post.getIdUser());
+                like.setIdPost(postId);
+                like.setTimestamp(new Date().getTime());
+                like(like);
+            }
+        });
+
         getUserInfo(post.getIdUser(), holder);
+    }
+
+    private void like(Like like) {
+
+        mLikesProvider.create(like);
+
     }
 
     private void getUserInfo(String idUser, final ViewHolder holder) {
@@ -85,7 +108,9 @@ public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.Vi
         TextView textViewTitle;
         TextView textViewDescription;
         TextView textViewUsername;
+        TextView textViewLike;
         ImageView imageViewPost;
+        ImageView imageViewLike;
         View viewHolder;
 
         public ViewHolder(View view) {
@@ -93,7 +118,9 @@ public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.Vi
             textViewTitle = view.findViewById(R.id.textViewTitlePostcard);
             textViewDescription = view.findViewById(R.id.textViewDescriptionPostcard);
             textViewUsername = view.findViewById(R.id.textViewUsernamePostCard);
+            textViewLike = view.findViewById(R.id.textViewLike);
             imageViewPost = view.findViewById(R.id.imageViewPostCard);
+            imageViewLike = view.findViewById(R.id.imageViewLike);
             viewHolder = view;
         }
     }
