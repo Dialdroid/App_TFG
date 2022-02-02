@@ -1,6 +1,7 @@
 package com.example.medicinapp.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,15 +29,20 @@ import com.example.medicinapp.models.Post;
 import com.example.medicinapp.models.SliderItem;
 import com.example.medicinapp.providers.AuthProvider;
 import com.example.medicinapp.providers.CommentsProvider;
+import com.example.medicinapp.providers.LikesProvider;
 import com.example.medicinapp.providers.PostProvider;
 import com.example.medicinapp.providers.UserProvider;
+import com.example.medicinapp.utils.RelativeTime;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
@@ -57,6 +63,7 @@ public class PostDetailActivity extends AppCompatActivity {
     UserProvider mUsersProvider;
     CommentsProvider mCommentsProvider;
     AuthProvider mAuthProvider;
+    LikesProvider mLikesProvider;
 
     CommentAdapter mAdapter;
 
@@ -65,6 +72,8 @@ public class PostDetailActivity extends AppCompatActivity {
     TextView mTextViewTitle;
     TextView mTextViewDescription;
     TextView mTextViewUsername;
+    TextView mTextViewRelativeTime;
+    TextView mTextViewLikes;
     CircleImageView mCircleImageViewProfile;
     Button mButtonShowProfile;
     CircleImageView mCircleImageViewBack;
@@ -82,6 +91,8 @@ public class PostDetailActivity extends AppCompatActivity {
         mTextViewTitle = findViewById(R.id.textViewTitle);
         mTextViewDescription = findViewById(R.id.textViewDescription);
         mTextViewUsername = findViewById(R.id.textViewUsername);
+        mTextViewRelativeTime = findViewById(R.id.textViewRelativeTime);
+        mTextViewLikes = findViewById(R.id.textViewLikes);
         mCircleImageViewProfile = findViewById(R.id.circleImageProfile);
         mButtonShowProfile = findViewById(R.id.btnShowProfile);
         mCircleImageViewBack = findViewById(R.id.circleImageBack);
@@ -95,11 +106,10 @@ public class PostDetailActivity extends AppCompatActivity {
         mUsersProvider = new UserProvider();
         mCommentsProvider = new CommentsProvider();
         mAuthProvider = new AuthProvider();
+        mLikesProvider = new LikesProvider();
 
 
         mExtraPostId = getIntent().getStringExtra("id");
-
-        getPost();
 
         mFabComment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,6 +131,26 @@ public class PostDetailActivity extends AppCompatActivity {
                 goToShowProfile();
             }
         });
+
+        getPost();
+        getNumberLikes();
+
+    }
+
+    private void getNumberLikes() {
+        mLikesProvider.getLikesByPost(mExtraPostId).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                int numberLikes = queryDocumentSnapshots.size();
+                if (numberLikes == 1) {
+                    mTextViewLikes.setText(numberLikes + " Me gusta");
+                }
+                else {
+                    mTextViewLikes.setText(numberLikes + " Me gustas");
+                }
+            }
+        });
+
     }
 
     @Override
@@ -262,6 +292,11 @@ public class PostDetailActivity extends AppCompatActivity {
                     if (documentSnapshot.contains("idUser")) {
                         mIdUser = documentSnapshot.getString("idUser");
                         getUserInfo(mIdUser);
+                    }
+                    if (documentSnapshot.contains("timestamp")) {
+                        long timestamp = documentSnapshot.getLong("timestamp");
+                        String relativeTime = RelativeTime.getTimeAgo(timestamp, PostDetailActivity.this);
+                        mTextViewRelativeTime.setText(relativeTime);
                     }
 
                     instanceSlider();
