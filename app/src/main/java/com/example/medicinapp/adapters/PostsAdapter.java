@@ -10,12 +10,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.medicinapp.activities.PostDetailActivity;
 import com.example.medicinapp.models.Like;
 import com.example.medicinapp.models.Post;
 import com.example.medicinapp.R;
+import com.example.medicinapp.providers.AuthProvider;
 import com.example.medicinapp.providers.LikesProvider;
 import com.example.medicinapp.providers.PostProvider;
 import com.example.medicinapp.providers.UserProvider;
@@ -23,6 +25,9 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.util.Date;
@@ -33,16 +38,18 @@ public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.Vi
     Context context;
     UserProvider mUserProvider;
     LikesProvider mLikesProvider;
+    AuthProvider mAuthProvider;
 
     public PostsAdapter(FirestoreRecyclerOptions<Post> options, Context context) {
         super(options);
         this.context = context;
         mUserProvider = new UserProvider();
         mLikesProvider = new LikesProvider();
+        mAuthProvider = new AuthProvider();
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull final Post post) {
+    protected void onBindViewHolder(@NonNull final ViewHolder holder, int position, @NonNull final Post post) {
 
         DocumentSnapshot document = getSnapshots().getSnapshot(position);
         final String postId = document.getId();
@@ -65,21 +72,62 @@ public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.Vi
 
         holder.imageViewLike.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 Like like = new Like();
-                like.setIdUser(post.getIdUser());
+                like.setIdUser(mAuthProvider.getUID());
                 like.setIdPost(postId);
                 like.setTimestamp(new Date().getTime());
-                like(like);
+                like(like, holder);
             }
         });
 
         getUserInfo(post.getIdUser(), holder);
+        getNumberLikesByPost(postId, holder);
+        checkIfExistLike(postId, mAuthProvider.getUID(), holder);
     }
 
-    private void like(Like like) {
+    private void getNumberLikesByPost(String idPost, final ViewHolder holder) {
+        mLikesProvider.getLikesByPost(idPost).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                int numberLikes = queryDocumentSnapshots.size();
+                holder.textViewLike.setText(String.valueOf(numberLikes) + " Me gustas");
+            }
+        });
+    }
 
-        mLikesProvider.create(like);
+    private void like(final Like like, final ViewHolder holder) {
+        mLikesProvider.getLikeByPostAndUser(like.getIdPost(), mAuthProvider.getUID()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                int numberDocuments = queryDocumentSnapshots.size();
+                if (numberDocuments > 0) {
+                    String idLike = queryDocumentSnapshots.getDocuments().get(0).getId();
+                    holder.imageViewLike.setImageResource(R.drawable.icon_no_like);
+                    mLikesProvider.delete(idLike);
+                }
+                else {
+                    holder.imageViewLike.setImageResource(R.drawable.icon_like);
+                    mLikesProvider.create(like);
+                }
+            }
+        });
+
+    }
+
+    private void checkIfExistLike(String idPost, String idUser, final ViewHolder holder) {
+        mLikesProvider.getLikeByPostAndUser(idPost, idUser).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                int numberDocuments = queryDocumentSnapshots.size();
+                if (numberDocuments > 0) {
+                    holder.imageViewLike.setImageResource(R.drawable.icon_like);
+                }
+                else {
+                    holder.imageViewLike.setImageResource(R.drawable.icon_no_like);
+                }
+            }
+        });
 
     }
 
