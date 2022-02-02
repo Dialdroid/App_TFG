@@ -88,8 +88,6 @@
                         android:text="Nombre de usuario"
                         android:textColor="@color/black"/>
 
-
-
                 </LinearLayout>
 
                 <Button
@@ -118,6 +116,14 @@
             android:layout_marginRight="25dp"
             android:textColor="@color/blue_200" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -138,7 +144,40 @@
             android:layout_marginRight="25dp"
             android:layout_marginLeft="25dp" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="COMENTARIOS"
+            android:textColor="@color/black"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewComments"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
         </LinearLayout>
+
+    </LinearLayout>
 
     </ScrollView>
 

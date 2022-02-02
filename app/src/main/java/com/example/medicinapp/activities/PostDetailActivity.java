@@ -2,6 +2,8 @@ package com.example.medicinapp.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -18,18 +20,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.medicinapp.R;
+import com.example.medicinapp.adapters.CommentAdapter;
+import com.example.medicinapp.adapters.PostsAdapter;
 import com.example.medicinapp.adapters.SliderAdapter;
 import com.example.medicinapp.models.Comment;
+import com.example.medicinapp.models.Post;
 import com.example.medicinapp.models.SliderItem;
 import com.example.medicinapp.providers.AuthProvider;
 import com.example.medicinapp.providers.CommentsProvider;
 import com.example.medicinapp.providers.PostProvider;
 import com.example.medicinapp.providers.UserProvider;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.Query;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
@@ -51,6 +58,8 @@ public class PostDetailActivity extends AppCompatActivity {
     CommentsProvider mCommentsProvider;
     AuthProvider mAuthProvider;
 
+    CommentAdapter mAdapter;
+
     String mExtraPostId;
 
     TextView mTextViewTitle;
@@ -60,6 +69,7 @@ public class PostDetailActivity extends AppCompatActivity {
     Button mButtonShowProfile;
     CircleImageView mCircleImageViewBack;
     FloatingActionButton mFabComment;
+    RecyclerView mRecyclerView;
 
     String mIdUser = "";
 
@@ -76,6 +86,10 @@ public class PostDetailActivity extends AppCompatActivity {
         mButtonShowProfile = findViewById(R.id.btnShowProfile);
         mCircleImageViewBack = findViewById(R.id.circleImageBack);
         mFabComment = findViewById(R.id.fabComment);
+        mRecyclerView = findViewById(R.id.recyclerViewComments);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(PostDetailActivity.this);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
 
         mPostProvider = new PostProvider();
         mUsersProvider = new UserProvider();
@@ -107,6 +121,24 @@ public class PostDetailActivity extends AppCompatActivity {
                 goToShowProfile();
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Query query = mCommentsProvider.getCommentsByPost(mExtraPostId);
+        FirestoreRecyclerOptions<Comment> options = new FirestoreRecyclerOptions.Builder<Comment>()
+                .setQuery(query, Comment.class)
+                .build();
+        mAdapter = new CommentAdapter(options, PostDetailActivity.this);
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mAdapter.stopListening();
     }
 
     private void showDialogComment() {
