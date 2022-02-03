@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="220dp"
             android:orientation="vertical"
-            android:background="@color/blue_300">
+            android:background="@color/blue_200">
 
             <TextView
                 android:layout_width="match_parent"
@@ -144,7 +144,7 @@
         android:layout_height="wrap_content"
         android:text="PUBLICAR"
         android:background="@drawable/rounded_button"
-        android:backgroundTint="@color/blue_300"
+        android:backgroundTint="@color/blue_200"
         android:layout_gravity="bottom"
         android:layout_margin="20dp"
         android:textColor="@color/white"/>

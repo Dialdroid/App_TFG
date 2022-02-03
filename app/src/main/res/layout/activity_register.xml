@@ -24,7 +24,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/green_100"/>
+                android:background="@color/blue_200"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -180,7 +180,7 @@
         android:layout_height="wrap_content"
         android:text="REGISTRARSE"
         android:background="@drawable/rounded_button"
-        android:backgroundTint="@color/green_100"
+        android:backgroundTint="@color/blue_200"
         android:layout_gravity="bottom"
         android:textColor="@color/white"
         android:layout_margin="20dp"/>

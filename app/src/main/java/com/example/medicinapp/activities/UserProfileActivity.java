@@ -1,12 +1,15 @@
 package com.example.medicinapp.activities;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,8 +41,9 @@ public class UserProfileActivity extends AppCompatActivity {
     TextView mTextViewPostExist;
     ImageView mImageViewCover;
     CircleImageView mCircleImageProfile;
-    CircleImageView mCircleImageViewBack;
+
     RecyclerView mRecyclerView;
+    Toolbar mToolbar;
 
     UserProvider mUserProvider;
     AuthProvider mAuthProvider;
@@ -61,8 +65,11 @@ public class UserProfileActivity extends AppCompatActivity {
         mTextViewPostExist = findViewById(R.id.textViewPostExist);
         mImageViewCover = findViewById(R.id.imageViewCover);
         mCircleImageProfile = findViewById(R.id.circleImageProfile);
-        mCircleImageViewBack = findViewById(R.id.circleImageBack);
         mRecyclerView = findViewById(R.id.recyclerViewMyPost);
+        mToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(UserProfileActivity.this);
         mRecyclerView.setLayoutManager(linearLayoutManager);
@@ -72,13 +79,6 @@ public class UserProfileActivity extends AppCompatActivity {
         mPostProvider = new PostProvider();
 
         mExtraIdUser = getIntent().getStringExtra("idUser");
-
-        mCircleImageViewBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
         getUser();
         getPostNumber();
@@ -164,5 +164,14 @@ public class UserProfileActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    //esto está para evitar que se envíe un null al momento de ir hacia atrás desde el perfil del otro usuario
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId()==android.R.id.home){
+            finish();
+        }
+        return true;
     }
 }

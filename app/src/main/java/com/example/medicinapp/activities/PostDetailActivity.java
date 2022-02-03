@@ -3,6 +3,7 @@ package com.example.medicinapp.activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -76,9 +77,10 @@ public class PostDetailActivity extends AppCompatActivity {
     TextView mTextViewLikes;
     CircleImageView mCircleImageViewProfile;
     Button mButtonShowProfile;
-    CircleImageView mCircleImageViewBack;
+
     FloatingActionButton mFabComment;
     RecyclerView mRecyclerView;
+    Toolbar mToolbar;
 
     String mIdUser = "";
 
@@ -95,9 +97,13 @@ public class PostDetailActivity extends AppCompatActivity {
         mTextViewLikes = findViewById(R.id.textViewLikes);
         mCircleImageViewProfile = findViewById(R.id.circleImageProfile);
         mButtonShowProfile = findViewById(R.id.btnShowProfile);
-        mCircleImageViewBack = findViewById(R.id.circleImageBack);
+
         mFabComment = findViewById(R.id.fabComment);
         mRecyclerView = findViewById(R.id.recyclerViewComments);
+        mToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(PostDetailActivity.this);
         mRecyclerView.setLayoutManager(linearLayoutManager);
@@ -115,13 +121,6 @@ public class PostDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showDialogComment();
-            }
-        });
-
-        mCircleImageViewBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
             }
         });
 

@@ -7,18 +7,23 @@
     android:fitsSystemWindows="true"
     tools:context=".activities.PostDetailActivity">
 
-    <ScrollView
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        >
 
-    <LinearLayout
+    <com.google.android.material.appbar.CollapsingToolbarLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        app:layout_scrollFlags="scroll|exitUntilCollapsed"
+        app:contentScrim="@color/blue_200">
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="320dp">
+            android:layout_height="330dp"
+            app:layout_collapseMode="parallax"
+            android:transitionName="@string/transitionname_picture">
 
             <com.smarteist.autoimageslider.SliderView
                 android:id="@+id/imageSlider"
@@ -45,6 +50,7 @@
                 android:src="@drawable/ic_chat"
                 android:layout_gravity="right|bottom"
                 android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"
                 android:backgroundTint="@color/blue_200"/>
 
             <LinearLayout
@@ -78,151 +84,158 @@
                     android:padding="5dp"
                     android:alpha="0.7"/>
 
-
-
-
             </LinearLayout>
-
 
         </FrameLayout>
 
-
-
-        <androidx.cardview.widget.CardView
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp"
-            android:elevation="3dp" >
+            android:layout_height="?attr/actionBarSize"
+            app:layout_collapseMode="pin"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:gravity="center">
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/circleImageProfile"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    android:src="@drawable/icono_prototipo"
-                    app:civ_border_color="@color/gray"
-                    app:civ_border_width="2dp" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-                <LinearLayout
-                    android:layout_width="120dp"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_marginLeft="15dp"
-                    android:gravity="center">
-
-                    <TextView
-                        android:id="@+id/textViewUsername"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Nombre de usuario"
-                        android:textColor="@color/black"/>
-
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/btnShowProfile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="VER PERFIL"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/button_border"
-                    android:textColor="@color/blue_200"
-                    android:paddingRight="10dp"
-                    android:paddingLeft="10dp" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <TextView
-            android:id="@+id/textViewTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Titulo"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:textColor="@color/blue_200" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/gray"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="DESCRIPCIÓN"
-            android:textColor="@color/black"
-            android:textSize="16dp"
-            android:textStyle="bold"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"/>
-
-        <TextView
-            android:id="@+id/textViewDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginLeft="25dp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/gray"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="COMENTARIOS"
-            android:textColor="@color/black"
-            android:textSize="16dp"
-            android:textStyle="bold"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"/>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_marginTop="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp">
+            android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewComments"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="80dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:elevation="3dp" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/circleImageProfile"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:src="@drawable/icono_prototipo"
+                        app:civ_border_color="@color/gray"
+                        app:civ_border_width="2dp" />
+
+                    <LinearLayout
+                        android:layout_width="120dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="15dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textViewUsername"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Nombre de usuario"
+                            android:textColor="@color/black" />
+
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/btnShowProfile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/button_border"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="VER PERFIL"
+                        android:textColor="@color/blue_200" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/textViewTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Titulo"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:textColor="@color/blue_200" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="DESCRIPCIÓN"
+                android:textColor="@color/black"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"/>
+
+            <TextView
+                android:id="@+id/textViewDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginLeft="25dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="COMENTARIOS"
+                android:textColor="@color/black"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewComments"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
 
-    </ScrollView>
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/circleImageBack"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:src="@drawable/ic_arrow_white_2"/>
-
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

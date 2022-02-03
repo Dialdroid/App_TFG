@@ -24,7 +24,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/green_100"/>
+                android:background="@color/blue_200"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -78,7 +78,7 @@
         android:layout_height="wrap_content"
         android:text="CONFIRMAR"
         android:background="@drawable/rounded_button"
-        android:backgroundTint="@color/green_100"
+        android:backgroundTint="@color/blue_200"
         android:layout_gravity="bottom"
         android:textColor="@color/white"
         android:layout_margin="20dp"/>
@@ -90,7 +90,7 @@
         android:layout_gravity="top|center"
         android:layout_marginTop="140dp"
         app:civ_border_color="@color/white"
-        app:civ_circle_background_color="@color/green_100"
+        app:civ_circle_background_color="@color/blue_200"
         app:civ_border_width="5dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

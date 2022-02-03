@@ -90,7 +90,7 @@
             android:layout_height="wrap_content"
             android:text="INICIAR SESIÓN"
             android:background="@drawable/rounded_button"
-            android:backgroundTint="@color/green_100"
+            android:backgroundTint="@color/blue_200"
             android:textColor="@color/white"
             android:layout_marginTop="40dp"
             android:layout_marginLeft="20dp"
@@ -124,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:text="REGÍSTRATE AQUÍ"
                 android:layout_marginLeft="5dp"
-                android:textColor="@color/green_100"
+                android:textColor="@color/blue_200"
                 android:textStyle="bold"/>
             
         </LinearLayout>
