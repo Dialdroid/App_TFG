@@ -3,12 +3,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.BinnacleFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.BinnacleFragment"
+    android:layout_marginBottom="50dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <include layout="@layout/action_bar_toolbar"/>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="FRAGMENT BINNACLE" />
+        android:orientation="vertical"
+        android:layout_marginTop="55dp">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewBinnacle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="15dp"
+        android:backgroundTint="@color/blue_200"/>
 </FrameLayout>
