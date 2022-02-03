@@ -10,7 +10,7 @@ import android.view.MenuItem;
 
 import com.example.medicinapp.R;
 import com.example.medicinapp.fragments.ChatsFragment;
-import com.example.medicinapp.fragments.FilterFragment;
+import com.example.medicinapp.fragments.BinnacleFragment;
 import com.example.medicinapp.fragments.HomeFragment;
 import com.example.medicinapp.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -46,7 +46,7 @@ public class HomeActivity extends AppCompatActivity {
                    } else if(item.getItemId() == R.id.item_profile) {
                        openFragment(new ProfileFragment());
                    } else if(item.getItemId() == R.id.item_book) {
-                       openFragment(new FilterFragment());
+                       openFragment(new BinnacleFragment());
                    }
                    return true;
                 }
