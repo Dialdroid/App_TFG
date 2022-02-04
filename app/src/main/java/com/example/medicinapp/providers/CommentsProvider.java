@@ -21,9 +21,4 @@ public class CommentsProvider {
     public Query getCommentsByPost(String idPost) {
         return mCollection.whereEqualTo("idPost", idPost);
     }
-
-    public Query getCommentsbyPost(String idPost){
-        return mCollection.whereEqualTo("idPost", idPost);
-    }
-
 }
