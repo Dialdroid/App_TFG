@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:backgroundTint="@color/blue_200">
-
+            
             <TextView
                 android:id="@+id/textViewDateBitacora"
                 android:layout_width="match_parent"
