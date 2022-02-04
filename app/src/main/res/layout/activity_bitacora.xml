@@ -34,10 +34,10 @@
                 android:src="@drawable/ic_calendar"/>
 
             <EditText
-                android:id="@+id/editTextBitacoraDate"
+                android:id="@+id/editTextSelectDate"
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
-                android:hint="Seleciona una fecha"
+                android:text="Seleciona una fecha"
                 android:textAlignment="center"/>
 
         </LinearLayout>
