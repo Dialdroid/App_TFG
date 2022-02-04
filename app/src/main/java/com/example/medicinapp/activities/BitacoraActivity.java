@@ -20,7 +20,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class BitacoraActivity extends AppCompatActivity implements View.OnClickListener {
 
-    EditText mSelectDate;
     Button mBtnHappy;
     Button mBtnBored;
     Button mBtnSad;
@@ -32,9 +31,6 @@ public class BitacoraActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bitacora);
-        mSelectDate = findViewById(R.id.editTextSelectDate);
-        mSelectDate.setFocusable(false);
-        mSelectDate.setKeyListener(null);
         mBtnHappy = findViewById(R.id.btnHappy);
         mBtnBored = findViewById(R.id.btnBored);
         mBtnSad = findViewById(R.id.btnSad);
@@ -42,27 +38,6 @@ public class BitacoraActivity extends AppCompatActivity implements View.OnClickL
         mBtnScared = findViewById(R.id.btnScared);
         mCircleImageViewBack = findViewById(R.id.circleImageBack);
 
-
-        Calendar calendar = Calendar.getInstance();
-        final int year = calendar.get(Calendar.YEAR);
-        final int month = calendar.get(Calendar.MONTH);
-        final int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        mSelectDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        BitacoraActivity.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int day) {
-                        month = month+1;
-                        String date = day+"/"+month+"/"+year;
-                        mSelectDate.setText(date);
-                    }
-                }, year,month,day);
-                datePickerDialog.show();
-            }
-        });
 
         mBtnHappy.setOnClickListener(this);
         mBtnBored.setOnClickListener(this);
