@@ -247,6 +247,8 @@ public class PostActivity extends AppCompatActivity {
                                                         mDialog.dismiss();
                                                         if (taskSave.isSuccessful()) {
                                                             clearForm();
+                                                            Intent intent = new Intent(PostActivity.this, HomeActivity.class);
+                                                            startActivity(intent);
                                                             Toast.makeText(PostActivity.this, "La informacion se almaceno correctamente", Toast.LENGTH_SHORT).show();
                                                         } else {
                                                             Toast.makeText(PostActivity.this, "No se pudo almacenar la informacion", Toast.LENGTH_SHORT).show();
