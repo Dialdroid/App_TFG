@@ -12,6 +12,14 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -21,7 +29,7 @@
                 android:id="@+id/imageViewLike"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:src="@drawable/ic_angry"/>
+                android:src="@drawable/ic_emotionless"/>
 
             <TextView
                 android:id="@+id/textViewTitlePostcard"
@@ -31,28 +39,13 @@
                 android:paddingTop="10dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:textSize="16dp"
+                android:paddingBottom="10dp"
+                android:textSize="20dp"
+
                 android:maxLines="1"
                 android:textColor="@color/blue_100"/>
 
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/textViewDescriptionPostcard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Descripción de la publicación..."
-            android:layout_margin="10dp"
-            android:maxLines="2"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/gray"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="10dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -62,10 +55,18 @@
             android:layout_marginLeft="15dp"
             android:layout_marginBottom="10dp">
 
+            <TextView
+                android:id="@+id/textViewActivityBinnacle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Actividades realizadas"
+                android:layout_margin="10dp"
+                android:maxLines="2"/>
 
-
-
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="hora"/>
 
         </LinearLayout>
 
