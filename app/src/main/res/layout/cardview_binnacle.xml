@@ -18,6 +18,7 @@
             android:backgroundTint="@color/blue_200">
 
             <TextView
+                android:id="@+id/textViewDateBitacora"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/blue_200"
@@ -37,13 +38,13 @@
             android:layout_marginRight="10dp">
 
             <ImageView
-                android:id="@+id/imageViewLike"
+                android:id="@+id/imageViewEmotion"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:src="@drawable/ic_emotionless"/>
 
             <TextView
-                android:id="@+id/textViewTitlePostcard"
+                android:id="@+id/textViewTitleEmotioncard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Sentimiento"
@@ -57,7 +58,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textViewDescriptionPostcard"
+            android:id="@+id/textViewDescriptionEmotioncard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Actividad realizada"
@@ -84,7 +85,7 @@
 
 
             <TextView
-                android:id="@+id/textViewLike"
+                android:id="@+id/textViewRelativeTimeBitacora"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
