@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,13 +13,16 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.medicinapp.R;
+import com.example.medicinapp.fragments.BinnacleFragment;
 import com.example.medicinapp.models.Bitacora;
+import com.example.medicinapp.providers.AuthProvider;
 import com.example.medicinapp.providers.BitacoraProvider;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.jetbrains.annotations.NotNull;
+
 
 import java.util.Date;
 
@@ -38,6 +42,7 @@ public class BitacoraActivity extends AppCompatActivity implements View.OnClickL
     TextInputEditText mTextInputNote;
     CircleImageView mCircleImageViewBack;
     BitacoraProvider mProvider;
+    AuthProvider mAuthProvider;
     String mActivity = "";
     String mNote = "";
     String mEmotion = "";
@@ -49,6 +54,7 @@ public class BitacoraActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_bitacora);
 
         mProvider = new BitacoraProvider();
+        mAuthProvider = new AuthProvider();
 
         mBtnHappy = findViewById(R.id.btnHappy);
         mBtnBored = findViewById(R.id.btnBored);
@@ -108,12 +114,15 @@ public class BitacoraActivity extends AppCompatActivity implements View.OnClickL
         bitacora.setNote(mNote);
         bitacora.setEmotion(mEmotion);
         bitacora.setTimestamp(new Date().getTime());
+        bitacora.setIdUser(mAuthProvider.getUID());
         mProvider.save(bitacora).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<Void> task) {
                 mDialog.dismiss();
                 if (task.isSuccessful()){
                     clearBitacora();
+                    Intent intent = new Intent(BitacoraActivity.this, BinnacleFragment.class);
+                    startActivity(intent);
                     Toast.makeText(BitacoraActivity.this, "La informacion se almaceno correctamente", Toast.LENGTH_SHORT).show();
                 }
                 else {

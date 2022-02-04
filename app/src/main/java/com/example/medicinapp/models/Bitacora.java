@@ -7,17 +7,19 @@ public class Bitacora {
     private String emotion;
     private String activity;
     private String note;
+    private String idUser;
     private long timestamp;
 
     public Bitacora(){
 
     }
 
-    public Bitacora(String id, String emotion, String activity, String note, long timestamp){
+    public Bitacora(String id, String emotion, String activity, String note, String idUser, long timestamp){
         this.id = id;
         this.emotion = emotion;
         this.activity = activity;
         this.note = note;
+        this.idUser = idUser;
         this.timestamp = timestamp;
     }
 
@@ -51,6 +53,14 @@ public class Bitacora {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public String getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
     }
 
     public long getTimestamp() {

@@ -16,6 +16,10 @@ public class BitacoraProvider {
 
     public Task<Void> save(Bitacora bitacora) { return mCollection.document().set(bitacora); }
 
+    public Query getPostbyUser(String id){
+        return mCollection.whereEqualTo("idUser", id);
+    }
+
     public Query getAll(){ return mCollection.orderBy("timestamp", Query.Direction.DESCENDING); }
 
     public Task<Void> delete(String id) { return mCollection.document(id).delete();}
