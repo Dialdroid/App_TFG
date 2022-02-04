@@ -58,7 +58,8 @@
             android:layout_height="50dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:background="@drawable/ic_confident"/>
+            android:background="@drawable/ic_confident_white"
+            android:backgroundTint="@color/white"/>
 
         <Button
             android:id="@+id/btnBored"
@@ -66,7 +67,8 @@
             android:layout_height="50dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:background="@drawable/ic_bored"/>
+            android:background="@drawable/ic_bored_white"
+            android:backgroundTint="@color/white"/>
 
         <Button
             android:id="@+id/btnSad"
@@ -74,7 +76,8 @@
             android:layout_height="50dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:background="@drawable/ic_sad"/>
+            android:background="@drawable/ic_sad_white"
+            android:backgroundTint="@color/white"/>
 
         <Button
             android:id="@+id/btnAngry"
@@ -82,7 +85,8 @@
             android:layout_height="50dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:background="@drawable/ic_angry"/>
+            android:background="@drawable/ic_angry_white"
+            android:backgroundTint="@color/white"/>
 
         <Button
             android:id="@+id/btnScared"
@@ -90,7 +94,8 @@
             android:layout_height="50dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:background="@drawable/ic_scared"/>
+            android:background="@drawable/ic_scared_white"
+            android:backgroundTint="@color/white"/>
 
 
     </LinearLayout>
