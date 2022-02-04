@@ -24,10 +24,10 @@
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/fabBitacora"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_add"
+        android:src="@drawable/ic_emotion_add"
         android:layout_gravity="bottom|right"
         android:layout_margin="15dp"
         android:backgroundTint="@color/blue_200"/>
