@@ -15,6 +15,8 @@ import com.example.medicinapp.R;
 
 import java.util.Calendar;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class BitacoraActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -24,6 +26,7 @@ public class BitacoraActivity extends AppCompatActivity implements View.OnClickL
     Button mBtnSad;
     Button mBtnAngry;
     Button mBtnScared;
+    CircleImageView mCircleImageViewBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,7 @@ public class BitacoraActivity extends AppCompatActivity implements View.OnClickL
         mBtnSad = findViewById(R.id.btnSad);
         mBtnAngry = findViewById(R.id.btnAngry);
         mBtnScared = findViewById(R.id.btnScared);
+        mCircleImageViewBack = findViewById(R.id.circleImageBack);
 
 
         Calendar calendar = Calendar.getInstance();
@@ -65,6 +69,13 @@ public class BitacoraActivity extends AppCompatActivity implements View.OnClickL
         mBtnSad.setOnClickListener(this);
         mBtnAngry.setOnClickListener(this);
         mBtnScared.setOnClickListener(this);
+
+        mCircleImageViewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 
