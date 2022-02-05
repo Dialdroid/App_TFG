@@ -1,6 +1,8 @@
 package com.example.medicinapp.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.Layout;
 import android.view.LayoutInflater;
@@ -22,6 +24,8 @@ import com.example.medicinapp.providers.BitacoraProvider;
 import com.example.medicinapp.utils.RelativeTime;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.protobuf.StringValue;
 
@@ -67,7 +71,6 @@ public class BitacoraAdapter extends FirestoreRecyclerAdapter<Bitacora, Bitacora
                 context.startActivity(intent);
             }
         });
-
     }
 
     private void getTime(long timestamp, ViewHolder holder, Bitacora bitacora) {
@@ -110,6 +113,7 @@ public class BitacoraAdapter extends FirestoreRecyclerAdapter<Bitacora, Bitacora
         TextView textViewDescription;
         TextView textViewTime;
         ImageView imageViewEmotion;
+        ImageView imageViewDeleteEmotion;
         View viewHolder;
 
         public ViewHolder(View view){
