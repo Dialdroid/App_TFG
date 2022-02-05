@@ -11,8 +11,21 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/textViewEmotionDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fecha"
+            android:textColor="@color/blue_200"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"/>
+
         <androidx.cardview.widget.CardView
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="40dp"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_marginRight="20dp"
@@ -25,13 +38,11 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/circleImageProfile"
+                <ImageView
+                    android:id="@+id/imageViewEmotion"
                     android:layout_width="55dp"
                     android:layout_height="55dp"
-                    android:src="@drawable/ic_emotionless"
-                    app:civ_border_color="@color/gray"
-                    app:civ_border_width="2dp" />
+                    android:src="@drawable/ic_emotionless"/>
 
                 <LinearLayout
                     android:layout_width="150dp"
@@ -41,7 +52,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textViewTitle"
+                        android:id="@+id/textViewEmotion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="EMOCION"
@@ -57,12 +68,14 @@
                 <ImageView
                     android:layout_marginTop="5dp"
                     android:layout_marginLeft="60dp"
-                    android:id="@+id/imageViewDeleteMyPost"
+                    android:id="@+id/imageViewDeleteEmotion"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/ic_cancel"/>
 
             </LinearLayout>
+
+
 
         </androidx.cardview.widget.CardView>
 
@@ -77,16 +90,23 @@
             android:layout_marginRight="25dp"/>
 
         <TextView
-            android:id="@+id/textViewAcvtivity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="DESCRIPCIÓN"
+            android:text="ACTIVIDAD REALIZADA"
             android:textColor="@color/black"
             android:textSize="16dp"
             android:textStyle="bold"
             android:layout_marginTop="15dp"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"/>
+
+        <TextView
+            android:id="@+id/textViewActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginLeft="25dp"/>
 
 
 
@@ -119,6 +139,13 @@
 
 
     </LinearLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circleImageBack"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:src="@drawable/ic_baseline_arrow_blue200"/>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -63,6 +63,7 @@ public class BitacoraAdapter extends FirestoreRecyclerAdapter<Bitacora, Bitacora
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, BitacoraDetailActivity.class);
+                intent.putExtra("id", bitacoraId);
                 context.startActivity(intent);
             }
         });
