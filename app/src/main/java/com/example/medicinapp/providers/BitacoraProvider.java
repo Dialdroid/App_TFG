@@ -18,6 +18,10 @@ public class BitacoraProvider {
 
     public Query getAll(){ return mCollection.orderBy("timestamp", Query.Direction.DESCENDING); }
 
+    public Query getBitacoraByUser(String id){
+        return mCollection.whereEqualTo("idUser", id);
+    }
+
     public Query getEmotion(String emotion){ return mCollection.whereEqualTo("Emotion", emotion); }
 
     public Task<Void> delete(String id) { return mCollection.document(id).delete();}

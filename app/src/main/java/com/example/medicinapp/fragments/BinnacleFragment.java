@@ -70,7 +70,7 @@ public class BinnacleFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        Query query = mBitacoraProvider.getAll();
+        Query query = mBitacoraProvider.getBitacoraByUser(mAuthProvider.getUID());
         FirestoreRecyclerOptions<Bitacora> options = new FirestoreRecyclerOptions.Builder<Bitacora>()
                 .setQuery(query, Bitacora.class)
                 .build();

@@ -17,6 +17,7 @@ import com.example.medicinapp.R;
 import com.example.medicinapp.activities.BitacoraDetailActivity;
 import com.example.medicinapp.activities.PostDetailActivity;
 import com.example.medicinapp.models.Bitacora;
+import com.example.medicinapp.providers.AuthProvider;
 import com.example.medicinapp.providers.BitacoraProvider;
 import com.example.medicinapp.utils.RelativeTime;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -36,11 +37,13 @@ public class BitacoraAdapter extends FirestoreRecyclerAdapter<Bitacora, Bitacora
 
     Context context;
     BitacoraProvider mBitacoraProvider;
+    AuthProvider mAuthProvider;
 
     public BitacoraAdapter(FirestoreRecyclerOptions<Bitacora> options, Context context){
         super(options);
         this.context = context;
         mBitacoraProvider = new BitacoraProvider();
+        mAuthProvider = new AuthProvider();
     }
 
     @Override
@@ -48,6 +51,7 @@ public class BitacoraAdapter extends FirestoreRecyclerAdapter<Bitacora, Bitacora
 
         DocumentSnapshot document = getSnapshots().getSnapshot(position);
         final String bitacoraId = document.getId();
+
 
         holder.textViewEmotion.setText(bitacora.getEmotion());
         holder.textViewDescription.setText(bitacora.getActivity());
