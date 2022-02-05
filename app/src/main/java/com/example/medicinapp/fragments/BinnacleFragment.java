@@ -15,8 +15,15 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.medicinapp.R;
 import com.example.medicinapp.activities.BitacoraActivity;
+import com.example.medicinapp.adapters.BitacoraAdapter;
+import com.example.medicinapp.adapters.PostsAdapter;
+import com.example.medicinapp.models.Bitacora;
+import com.example.medicinapp.models.Post;
+import com.example.medicinapp.providers.AuthProvider;
 import com.example.medicinapp.providers.BitacoraProvider;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.Query;
 
 
 public class BinnacleFragment extends Fragment {
@@ -25,7 +32,9 @@ public class BinnacleFragment extends Fragment {
         FloatingActionButton mFab;
         Toolbar mToolbar;
         RecyclerView mRecyclerView;
-        BitacoraProvider mProvider;
+        BitacoraProvider mBitacoraProvider;
+        AuthProvider mAuthProvider;
+        BitacoraAdapter mBitacoraAdapter;
 
         public BinnacleFragment() {
         // Required empty public constructor
@@ -46,7 +55,8 @@ public class BinnacleFragment extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Bitacora");
 
-        mProvider = new BitacoraProvider();
+        mAuthProvider = new AuthProvider();
+        mBitacoraProvider = new BitacoraProvider();
 
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +65,24 @@ public class BinnacleFragment extends Fragment {
             }
         });
         return mView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Query query = mBitacoraProvider.getAll();
+        FirestoreRecyclerOptions<Bitacora> options = new FirestoreRecyclerOptions.Builder<Bitacora>()
+                .setQuery(query, Bitacora.class)
+                .build();
+        mBitacoraAdapter = new BitacoraAdapter(options, getContext());
+        mRecyclerView.setAdapter(mBitacoraAdapter);
+        mBitacoraAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mBitacoraAdapter.stopListening();
     }
 
     private void goToBitacora() {
