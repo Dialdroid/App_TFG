@@ -1,6 +1,7 @@
 package com.example.medicinapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.medicinapp.R;
+import com.example.medicinapp.activities.BitacoraDetailActivity;
 import com.example.medicinapp.activities.PostDetailActivity;
 import com.example.medicinapp.models.Bitacora;
 import com.example.medicinapp.providers.BitacoraProvider;
@@ -52,6 +54,14 @@ public class BitacoraAdapter extends FirestoreRecyclerAdapter<Bitacora, Bitacora
         getEmote(bitacora.getEmotion(),holder);
         getDate(bitacora.getTimestamp(), holder, bitacora);
         getTime(bitacora.getTimestamp(), holder, bitacora);
+
+        holder.viewHolder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, BitacoraDetailActivity.class);
+                context.startActivity(intent);
+            }
+        });
 
     }
 
@@ -95,6 +105,7 @@ public class BitacoraAdapter extends FirestoreRecyclerAdapter<Bitacora, Bitacora
         TextView textViewDescription;
         TextView textViewTime;
         ImageView imageViewEmotion;
+        View viewHolder;
 
         public ViewHolder(View view){
             super(view);
@@ -103,6 +114,7 @@ public class BitacoraAdapter extends FirestoreRecyclerAdapter<Bitacora, Bitacora
             textViewDescription = view.findViewById(R.id.textViewDescriptionEmotioncard);
             textViewTime = view.findViewById(R.id.textViewRelativeTimeBitacora);
             imageViewEmotion = view.findViewById(R.id.imageViewEmotion);
+            viewHolder = view;
         }
 
     }
