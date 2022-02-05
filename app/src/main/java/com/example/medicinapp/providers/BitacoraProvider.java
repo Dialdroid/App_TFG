@@ -21,8 +21,7 @@ public class BitacoraProvider {
 
     public Task<DocumentSnapshot> getBitacoraById(String id){ return mCollection.document(id).get();}
 
-    public Query getBitacoraByUser(String id){return mCollection.whereEqualTo("idUser", id);
-    }
+    public Query getBitacoraByUser(String id){return mCollection.whereEqualTo("idUser", id).orderBy("timestamp", Query.Direction.DESCENDING); }
 
     public Query getEmotion(String emotion){ return mCollection.whereEqualTo("Emotion", emotion); }
 
