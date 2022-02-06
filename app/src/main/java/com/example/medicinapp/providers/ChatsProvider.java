@@ -30,4 +30,5 @@ public class ChatsProvider {
         ids.add(idUser2 + idUser1);
         return mCollection.whereIn("id", ids);
     }
+
 }

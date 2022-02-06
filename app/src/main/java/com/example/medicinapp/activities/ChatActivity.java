@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import com.example.medicinapp.R;
 
-import com.example.medicinapp.R;
+
 import com.example.medicinapp.adapters.MessagesAdapter;
 import com.example.medicinapp.models.Chat;
 import com.example.medicinapp.models.Message;
@@ -106,13 +106,13 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        /*
+
         if (mExtraIdChat != null) {
             if (!mExtraIdChat.isEmpty()) {
                 getMessageChat();
             }
         }
-        */
+
 
     }
 
