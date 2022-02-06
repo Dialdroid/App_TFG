@@ -90,8 +90,6 @@ public class ChatActivity extends AppCompatActivity {
         mExtraIdChat  = getIntent().getStringExtra("idChat");
 
         showCustomToolbar(R.layout.custom_chat_toolbar);
-        Log.d("ENTRO", "cONSOLA FUNCIONANDO");
-
 
         mImageViewSendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,24 +97,16 @@ public class ChatActivity extends AppCompatActivity {
                 sendMessage();
             }
         });
-
         checkIfChatExist();
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
-        if (mExtraIdChat != null) {
-            if (!mExtraIdChat.isEmpty()) {
-                getMessageChat();
-            }
+        if (mAdapter != null) {
+            mAdapter.startListening();
         }
-
-
     }
-
-
 
     @Override
     public void onStop() {
@@ -137,6 +127,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
                 super.onItemRangeInserted(positionStart, itemCount);
+                updateViewed();
                 int numberMessage = mAdapter.getItemCount();
                 int lastMessagePosition = mLinearLayoutManager.findLastCompletelyVisibleItemPosition();
 
@@ -246,9 +237,31 @@ public class ChatActivity extends AppCompatActivity {
                 else {
                     mExtraIdChat = queryDocumentSnapshots.getDocuments().get(0).getId();
                     getMessageChat();
+                    updateViewed();
                 }
             }
         });
+    }
+
+    private void updateViewed() {
+        String idSender = "";
+
+        if (mAuthProvider.getUID().equals(mExtraIdUser1)) {
+            idSender = mExtraIdUser2;
+        }
+        else {
+            idSender = mExtraIdUser1;
+        }
+
+        mMessagesProvider.getMessagesByChatAndSender(mExtraIdChat, idSender).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                    mMessagesProvider.updateViewed(document.getId(), true);
+                }
+            }
+        });
+
     }
 
     private void createChat() {
@@ -264,6 +277,8 @@ public class ChatActivity extends AppCompatActivity {
         ids.add(mExtraIdUser2);
         chat.setIds(ids);
         mChatsProvider.create(chat);
+        mExtraIdChat = chat.getId();
+        getMessageChat();
     }
 }
 

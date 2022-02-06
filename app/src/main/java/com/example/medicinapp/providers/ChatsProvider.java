@@ -19,7 +19,6 @@ public class ChatsProvider {
         mCollection.document(chat.getIdUser1() + chat.getIdUser2()).set(chat);
     }
 
-
     public Query getAll(String idUser) {
         return mCollection.whereArrayContains("ids", idUser);
     }
