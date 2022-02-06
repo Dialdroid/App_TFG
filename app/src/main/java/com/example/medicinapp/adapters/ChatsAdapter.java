@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.medicinapp.R;
 import com.example.medicinapp.models.Chat;
+import com.example.medicinapp.providers.AuthProvider;
 import com.example.medicinapp.providers.UserProvider;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -24,11 +25,13 @@ public class ChatsAdapter extends FirestoreRecyclerAdapter<Chat, ChatsAdapter.Vi
 
     Context context;
     UserProvider mUsersProvider;
+    AuthProvider mAuthProvider;
 
     public ChatsAdapter(FirestoreRecyclerOptions<Chat> options, Context context) {
         super(options);
         this.context = context;
         mUsersProvider = new UserProvider();
+        mAuthProvider = new AuthProvider();
     }
 
     @Override
@@ -36,7 +39,12 @@ public class ChatsAdapter extends FirestoreRecyclerAdapter<Chat, ChatsAdapter.Vi
 
         DocumentSnapshot document = getSnapshots().getSnapshot(position);
         final String chatId = document.getId();
-        getUserInfo(chatId, holder);
+        if (mAuthProvider.getUID().equals(chat.getIdUser1())) {
+            getUserInfo(chat.getIdUser2(), holder);
+        }
+        else {
+            getUserInfo(chat.getIdUser1(), holder);
+        }
 
     }
 
