@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -23,6 +24,7 @@ import com.example.medicinapp.providers.PostProvider;
 import com.example.medicinapp.providers.UserProvider;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -41,6 +43,7 @@ public class UserProfileActivity extends AppCompatActivity {
     TextView mTextViewPostExist;
     ImageView mImageViewCover;
     CircleImageView mCircleImageProfile;
+    FloatingActionButton mFabChat;
 
     RecyclerView mRecyclerView;
     Toolbar mToolbar;
@@ -66,6 +69,7 @@ public class UserProfileActivity extends AppCompatActivity {
         mImageViewCover = findViewById(R.id.imageViewCover);
         mCircleImageProfile = findViewById(R.id.circleImageProfile);
         mRecyclerView = findViewById(R.id.recyclerViewMyPost);
+        mFabChat = findViewById(R.id.fabChat);
         mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("");
@@ -80,10 +84,28 @@ public class UserProfileActivity extends AppCompatActivity {
 
         mExtraIdUser = getIntent().getStringExtra("idUser");
 
+        if (mAuthProvider.getUID().equals(mExtraIdUser)) {
+            mFabChat.setEnabled(false);
+        }
+
+        mFabChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToChatActivity();
+            }
+        });
+
         getUser();
         getPostNumber();
         checkIfExistPost();
 
+    }
+
+    private void goToChatActivity() {
+        Intent intent = new Intent(UserProfileActivity.this, ChatActivity.class);
+        intent.putExtra("idUser1", mAuthProvider.getUID());
+        intent.putExtra("idUser2", mExtraIdUser);
+        startActivity(intent);
     }
 
     @Override
