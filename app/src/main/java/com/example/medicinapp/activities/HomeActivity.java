@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.medicinapp.R;
@@ -15,6 +16,7 @@ import com.example.medicinapp.fragments.HomeFragment;
 import com.example.medicinapp.fragments.ProfileFragment;
 import com.example.medicinapp.providers.AuthProvider;
 import com.example.medicinapp.providers.TokenProvider;
+import com.example.medicinapp.providers.UserProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
@@ -23,6 +25,7 @@ public class HomeActivity extends AppCompatActivity {
 
     TokenProvider mTokenProvider;
     AuthProvider mAuthProvider;
+    UserProvider mUsersProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +36,31 @@ public class HomeActivity extends AppCompatActivity {
         bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
         mTokenProvider = new TokenProvider();
         mAuthProvider = new AuthProvider();
+        mUsersProvider = new UserProvider();
         openFragment(new HomeFragment());
         createToken();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateOnline(true);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        updateOnline(false);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("ENTRO", "ON PAUSE");
+    }
+
+    private void updateOnline(boolean status) {
+        mUsersProvider.updateOnline(mAuthProvider.getUID(), status);
     }
 
     public void openFragment(Fragment fragment) {

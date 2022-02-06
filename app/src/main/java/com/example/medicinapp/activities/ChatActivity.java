@@ -1,6 +1,7 @@
 package com.example.medicinapp.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -27,11 +28,14 @@ import com.example.medicinapp.providers.AuthProvider;
 import com.example.medicinapp.providers.ChatsProvider;
 import com.example.medicinapp.providers.MessagesProvider;
 import com.example.medicinapp.providers.UserProvider;
+import com.example.medicinapp.utils.RelativeTime;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
@@ -205,13 +209,24 @@ public class ChatActivity extends AppCompatActivity {
         else {
             idUserInfo = mExtraIdUser1;
         }
-        mUsersProvider.getUser(idUserInfo).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        mUsersProvider.getUserRealtime(idUserInfo).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 if (documentSnapshot.exists()) {
                     if (documentSnapshot.contains("username")) {
                         String username = documentSnapshot.getString("username");
                         mTextViewUsername.setText(username);
+                    }
+                    if (documentSnapshot.contains("online")) {
+                        boolean online = documentSnapshot.getBoolean("online");
+                        if (online) {
+                            mTextViewRelativeTime.setText("En linea");
+                        }
+                        else if (documentSnapshot.contains("lastConnect")) {
+                            long lastConnect = documentSnapshot.getLong("lastConnect");
+                            String relativeTime = RelativeTime.getTimeAgo(lastConnect, ChatActivity.this);
+                            mTextViewRelativeTime.setText(relativeTime);
+                        }
                     }
                     if (documentSnapshot.contains("image_profile")) {
                         String imageProfile = documentSnapshot.getString("image_profile");
@@ -281,4 +296,5 @@ public class ChatActivity extends AppCompatActivity {
         getMessageChat();
     }
 }
+
 

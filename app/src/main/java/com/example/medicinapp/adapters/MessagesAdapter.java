@@ -73,7 +73,7 @@ public class MessagesAdapter extends FirestoreRecyclerAdapter<Message, MessagesA
             params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
             params.setMargins(0, 0, 150,0);
             holder.linearLayoutMessage.setLayoutParams(params);
-            holder.linearLayoutMessage.setPadding(30, 20, 30, 20);
+            holder.linearLayoutMessage.setPadding(30, 20, 0, 20);
             holder.linearLayoutMessage.setBackground(context.getResources().getDrawable(R.drawable.rounded_linear_layout_grey));
             holder.imageViewViewed.setVisibility(View.GONE);
             holder.textViewMessage.setTextColor(Color.DKGRAY);
