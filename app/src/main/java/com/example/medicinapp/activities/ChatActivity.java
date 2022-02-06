@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -86,6 +87,8 @@ public class ChatActivity extends AppCompatActivity {
         mExtraIdChat  = getIntent().getStringExtra("idChat");
 
         showCustomToolbar(R.layout.custom_chat_toolbar);
+        Log.d("ENTRO", "cONSOLA FUNCIONANDO");
+
 
         mImageViewSendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,6 +142,7 @@ public class ChatActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
                         mEditTextMessage.setText("");
+                        mAdapter.notifyDataSetChanged();
                         Toast.makeText(ChatActivity.this, "El mensaje se creo correctamente", Toast.LENGTH_SHORT).show();
                     }
                     else {
