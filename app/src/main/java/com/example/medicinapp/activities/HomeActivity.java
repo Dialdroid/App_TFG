@@ -13,11 +13,16 @@ import com.example.medicinapp.fragments.ChatsFragment;
 import com.example.medicinapp.fragments.BinnacleFragment;
 import com.example.medicinapp.fragments.HomeFragment;
 import com.example.medicinapp.fragments.ProfileFragment;
+import com.example.medicinapp.providers.AuthProvider;
+import com.example.medicinapp.providers.TokenProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigation;
+
+    TokenProvider mTokenProvider;
+    AuthProvider mAuthProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +31,10 @@ public class HomeActivity extends AppCompatActivity {
 
         bottomNavigation = findViewById(R.id.bottom_navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+        mTokenProvider = new TokenProvider();
+        mAuthProvider = new AuthProvider();
         openFragment(new HomeFragment());
+        createToken();
     }
 
     public void openFragment(Fragment fragment) {
@@ -52,4 +60,7 @@ public class HomeActivity extends AppCompatActivity {
                 }
             };
 
+    private void createToken() {
+        mTokenProvider.create(mAuthProvider.getUID());
+    }
 }
