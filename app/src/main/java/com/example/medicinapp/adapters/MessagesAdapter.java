@@ -2,6 +2,7 @@ package com.example.medicinapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +62,8 @@ public class MessagesAdapter extends FirestoreRecyclerAdapter<Message, MessagesA
             holder.linearLayoutMessage.setPadding(30, 20, 25, 20);
             holder.linearLayoutMessage.setBackground(context.getResources().getDrawable(R.drawable.rounded_linear_layout));
             holder.imageViewViewed.setVisibility(View.VISIBLE);
+            holder.textViewMessage.setTextColor(Color.WHITE);
+            holder.textViewDate.setTextColor(Color.LTGRAY);
         }
         else {
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
@@ -70,9 +73,11 @@ public class MessagesAdapter extends FirestoreRecyclerAdapter<Message, MessagesA
             params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
             params.setMargins(0, 0, 150,0);
             holder.linearLayoutMessage.setLayoutParams(params);
-            holder.linearLayoutMessage.setPadding(30, 20, -40, 20);
+            holder.linearLayoutMessage.setPadding(30, 20, 30, 20);
             holder.linearLayoutMessage.setBackground(context.getResources().getDrawable(R.drawable.rounded_linear_layout_grey));
-            holder.imageViewViewed.setVisibility(View.VISIBLE);
+            holder.imageViewViewed.setVisibility(View.GONE);
+            holder.textViewMessage.setTextColor(Color.DKGRAY);
+            holder.textViewDate.setTextColor(Color.LTGRAY);
         }
 
 
