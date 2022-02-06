@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -17,16 +19,19 @@ import android.widget.Toast;
 import com.example.medicinapp.R;
 
 import com.example.medicinapp.R;
+import com.example.medicinapp.adapters.MessagesAdapter;
 import com.example.medicinapp.models.Chat;
 import com.example.medicinapp.models.Message;
 import com.example.medicinapp.providers.AuthProvider;
 import com.example.medicinapp.providers.ChatsProvider;
 import com.example.medicinapp.providers.MessagesProvider;
 import com.example.medicinapp.providers.UserProvider;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
@@ -53,6 +58,9 @@ public class ChatActivity extends AppCompatActivity {
     TextView mTextViewUsername;
     TextView mTextViewRelativeTime;
     ImageView mImageViewBack;
+    RecyclerView mRecyclerViewMessage;
+
+    MessagesAdapter mAdapter;
 
     View mActionBarView;
 
@@ -68,6 +76,10 @@ public class ChatActivity extends AppCompatActivity {
 
         mEditTextMessage = findViewById(R.id.editTextMessage);
         mImageViewSendMessage = findViewById(R.id.imageViewSendMessage);
+        mRecyclerViewMessage = findViewById(R.id.recyclerViewMessage);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ChatActivity.this);
+        mRecyclerViewMessage.setLayoutManager(linearLayoutManager);
 
         mExtraIdUser1 = getIntent().getStringExtra("idUser1");
         mExtraIdUser2 = getIntent().getStringExtra("idUser2");
@@ -83,6 +95,25 @@ public class ChatActivity extends AppCompatActivity {
         });
 
         checkIfChatExist();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Query query = mMessagesProvider.getMessageByChat(mExtraIdChat);
+        FirestoreRecyclerOptions<Message> options =
+                new FirestoreRecyclerOptions.Builder<Message>()
+                        .setQuery(query, Message.class)
+                        .build();
+        mAdapter = new MessagesAdapter(options, ChatActivity.this);
+        mRecyclerViewMessage.setAdapter(mAdapter);
+        mAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mAdapter.stopListening();
     }
 
     private void sendMessage() {
