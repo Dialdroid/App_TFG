@@ -48,6 +48,7 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -90,6 +91,9 @@ public class ChatActivity extends AppCompatActivity {
 
     ListenerRegistration mListener;
 
+    String mMyUsername;
+    String mUsernameChat;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,6 +119,7 @@ public class ChatActivity extends AppCompatActivity {
         mExtraIdChat  = getIntent().getStringExtra("idChat");
 
         showCustomToolbar(R.layout.custom_chat_toolbar);
+        getMyInfoUser();
 
         mImageViewSendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -203,7 +208,7 @@ public class ChatActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         mEditTextMessage.setText("");
                         mAdapter.notifyDataSetChanged();
-                        sendNotification(message);
+                        getToken(message);
                     }
                     else {
                         Toast.makeText(ChatActivity.this, "El mensaje no se pudo crear", Toast.LENGTH_SHORT).show();
@@ -253,8 +258,8 @@ public class ChatActivity extends AppCompatActivity {
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 if (documentSnapshot.exists()) {
                     if (documentSnapshot.contains("username")) {
-                        String username = documentSnapshot.getString("username");
-                        mTextViewUsername.setText(username);
+                        mUsernameChat = documentSnapshot.getString("username");
+                        mTextViewUsername.setText(mUsernameChat);
                     }
                     if (documentSnapshot.contains("online")) {
                         boolean online = documentSnapshot.getBoolean("online");
@@ -340,7 +345,7 @@ public class ChatActivity extends AppCompatActivity {
         getMessageChat();
     }
 
-    private void sendNotification(final Message message) {
+    private void getToken(final Message message) {
         String idUser = "";
         if (mAuthProvider.getUID().equals(mExtraIdUser1)) {
             idUser = mExtraIdUser2;
@@ -354,44 +359,105 @@ public class ChatActivity extends AppCompatActivity {
                 if (documentSnapshot.exists()) {
                     if (documentSnapshot.contains("token")) {
                         String token = documentSnapshot.getString("token");
-
-                        ArrayList<Message> messageArrayList = new ArrayList<>();
-                        messageArrayList.add(message);
-                        Gson gson = new Gson();
-                        String messages = gson.toJson(messageArrayList);
-
-                        Map<String, String> data = new HashMap<>();
-                        data.put("title", "NUEVO MENSAJE");
-                        data.put("body", message.getMessage());
-                        data.put("idNotification", String.valueOf(mIdNotificationChat));
-                        data.put("messages", messages);
-
-                        FCMBody body = new FCMBody(token, "high", "4500s", data);
-                        mNotificationProvider.sendNotification(body).enqueue(new Callback<FCMResponse>() {
-                            @Override
-                            public void onResponse(Call<FCMResponse> call, Response<FCMResponse> response) {
-                                if (response.body() != null) {
-                                    if (response.body().getSuccess() == 1) {
-                                        Toast.makeText(ChatActivity.this, "La notificacion se envio correcatemente", Toast.LENGTH_SHORT).show();
-                                    }
-                                    else {
-                                        Toast.makeText(ChatActivity.this, "La notificacion no se pudo enviar", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                                else {
-                                    Toast.makeText(ChatActivity.this, "La notificacion no se pudo enviar", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<FCMResponse> call, Throwable t) {
-
-                            }
-                        });
+                        getLastThreeMessages(message, token);
                     }
                 }
                 else {
                     Toast.makeText(ChatActivity.this, "El token de notificaciones del usuario no existe", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void getLastThreeMessages(final Message message, final String token) {
+        mMessagesProvider.getLastThreeMessagesByChatAndSender(mExtraIdChat, mAuthProvider.getUID()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                ArrayList<Message> messageArrayList = new ArrayList<>();
+
+                for (DocumentSnapshot d: queryDocumentSnapshots.getDocuments()) {
+                    if (d.exists()) {
+                        Message message = d.toObject(Message.class);
+                        messageArrayList.add(message);
+                    }
+                }
+
+                if (messageArrayList.size() == 0) {
+                    messageArrayList.add(message);
+                }
+
+                Collections.reverse(messageArrayList);
+
+                Gson gson = new Gson();
+                String messages = gson.toJson(messageArrayList);
+
+                sendNotification(token, messages, message);
+            }
+        });
+    }
+
+    private void sendNotification(final String token, String messages, Message message) {
+        final Map<String, String> data = new HashMap<>();
+        data.put("title", "NUEVO MENSAJE");
+        data.put("body", message.getMessage());
+        data.put("idNotification", String.valueOf(mIdNotificationChat));
+        data.put("messages", messages);
+        data.put("usernameSender", mMyUsername.toUpperCase());
+        data.put("usernameReceiver", mUsernameChat.toUpperCase());
+
+        String idSender = "";
+        if (mAuthProvider.getUID().equals(mExtraIdUser1)) {
+            idSender = mExtraIdUser2;
+        }
+        else {
+            idSender = mExtraIdUser1;
+        }
+
+        mMessagesProvider.getLastMessageSender(mExtraIdChat, idSender).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                int size = queryDocumentSnapshots.size();
+                String lastMessage = "";
+                if (size > 0) {
+                    lastMessage = queryDocumentSnapshots.getDocuments().get(0).getString("message");
+                    data.put("lastMessage", lastMessage);
+                }
+                FCMBody body = new FCMBody(token, "high", "4500s", data);
+                mNotificationProvider.sendNotification(body).enqueue(new Callback<FCMResponse>() {
+                    @Override
+                    public void onResponse(Call<FCMResponse> call, Response<FCMResponse> response) {
+                        if (response.body() != null) {
+                            if (response.body().getSuccess() == 1) {
+                                //Toast.makeText(ChatActivity.this, "La notificacion se envio correcatemente", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Toast.makeText(ChatActivity.this, "La notificacion no se pudo enviar", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else {
+                            Toast.makeText(ChatActivity.this, "La notificacion no se pudo enviar", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<FCMResponse> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
+
+
+    }
+
+    private void getMyInfoUser() {
+        mUsersProvider.getUser(mAuthProvider.getUID()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    if (documentSnapshot.contains("username")) {
+                        mMyUsername = documentSnapshot.getString("username");
+                    }
                 }
             }
         });

@@ -53,7 +53,7 @@
             android:id="@+id/imageViewSendMessage"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:src="@mipmap/ic_send_padding"
+            android:src="@mipmap/ic_send_padding_2"
             android:layout_marginLeft="10dp"
             />
 

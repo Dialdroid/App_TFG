@@ -308,8 +308,6 @@ public class EditProfileActivity extends AppCompatActivity {
                 mDialog.dismiss();
                 if (task.isSuccessful()) {
                     Toast.makeText(EditProfileActivity.this, "La informacion se actualizo correctamente", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(EditProfileActivity.this, ProfileFragment.class);
-                    startActivity(intent);
                 }
                 else {
                     Toast.makeText(EditProfileActivity.this, "La informacion no se pudo actualizar", Toast.LENGTH_SHORT).show();
