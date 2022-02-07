@@ -5,6 +5,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 
@@ -20,8 +21,8 @@ import java.util.Date;
 
 public class NotificationHelper extends ContextWrapper {
 
-    private static final String CHANNEL_ID = "com.example.medicinapp";
-    private static final String CHANNEL_NAME = "MedicinApp";
+    private static final String CHANNEL_ID = "com.optic.socialmediagamer";
+    private static final String CHANNEL_NAME = "SocialMediaGamer";
 
     private NotificationManager manager;
 
@@ -63,15 +64,22 @@ public class NotificationHelper extends ContextWrapper {
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(body).setBigContentTitle(title));
     }
 
-    public NotificationCompat.Builder getNotificationMessage(Message[] messages, String usernameSender, String usernameReceiver, String lastMessage) {
+    public NotificationCompat.Builder getNotificationMessage(
+            Message[] messages,
+            String usernameSender,
+            String usernameReceiver,
+            String lastMessage,
+            Bitmap bitmapSender,
+            Bitmap bitmapReceiver) {
+
         Person person1 = new Person.Builder()
                 .setName(usernameReceiver)
-                .setIcon(IconCompat.createWithResource(getApplicationContext(), R.mipmap.ic_launcher))
+                .setIcon(IconCompat.createWithBitmap(bitmapReceiver))
                 .build();
 
         Person person2 = new Person.Builder()
                 .setName(usernameSender)
-                .setIcon(IconCompat.createWithResource(getApplicationContext(), R.mipmap.ic_launcher))
+                .setIcon(IconCompat.createWithBitmap(bitmapSender))
                 .build();
 
         NotificationCompat.MessagingStyle messagingStyle = new NotificationCompat.MessagingStyle(person1);

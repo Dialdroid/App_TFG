@@ -39,6 +39,7 @@ public class ChatsAdapter extends FirestoreRecyclerAdapter<Chat, ChatsAdapter.Vi
     ChatsProvider mChatsProvider;
     MessagesProvider mMessagesProvider;
     ListenerRegistration mListener;
+    ListenerRegistration mListenerLastMessage;
 
     public ChatsAdapter(FirestoreRecyclerOptions<Chat> options, Context context) {
         super(options);
@@ -105,14 +106,20 @@ public class ChatsAdapter extends FirestoreRecyclerAdapter<Chat, ChatsAdapter.Vi
         return mListener;
     }
 
+    public ListenerRegistration getListenerLastMessage() {
+        return mListenerLastMessage;
+    }
+
     private void getLastMessage(String chatId, final TextView textViewLastMessage) {
-        mMessagesProvider.getLastMessage(chatId).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        mListenerLastMessage = mMessagesProvider.getLastMessage(chatId).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                int size = queryDocumentSnapshots.size();
-                if (size > 0) {
-                    String lastMessage = queryDocumentSnapshots.getDocuments().get(0).getString("message");
-                    textViewLastMessage.setText(lastMessage);
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                if (queryDocumentSnapshots != null) {
+                    int size = queryDocumentSnapshots.size();
+                    if (size > 0) {
+                        String lastMessage = queryDocumentSnapshots.getDocuments().get(0).getString("message");
+                        textViewLastMessage.setText(lastMessage);
+                    }
                 }
             }
         });
@@ -173,5 +180,6 @@ public class ChatsAdapter extends FirestoreRecyclerAdapter<Chat, ChatsAdapter.Vi
             viewHolder = view;
         }
     }
+
 
 }
