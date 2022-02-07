@@ -1,5 +1,7 @@
 package com.example.medicinapp.service;
 
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -7,9 +9,12 @@ import android.os.Looper;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.RemoteInput;
 
+import com.example.medicinapp.R;
 import com.example.medicinapp.channel.NotificationHelper;
 import com.example.medicinapp.models.Message;
+import com.example.medicinapp.receivers.MessageReceiver;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
@@ -22,6 +27,8 @@ import java.util.Map;
 import java.util.Random;
 
 public class MyFirebaseMessagingClient extends FirebaseMessagingService {
+
+    public static final String NOTIFICATION_REPLY = "NotificationReply";
 
     @Override
     public void onNewToken(@NonNull String s) {
@@ -61,8 +68,27 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
         String messagesJSON = data.get("messages");
         final String imageSender = data.get("imageSender");
         final String imageReceiver = data.get("imageReceiver");
-
+        final String idSender = data.get("idSender");
+        final String idReceiver = data.get("idReceiver");
+        final String idChat = data.get("idChat");
         final int idNotification = Integer.parseInt(data.get("idNotification"));
+
+        Intent intent = new Intent(this, MessageReceiver.class);
+        intent.putExtra("idSender", idSender);
+        intent.putExtra("idReceiver", idReceiver);
+        intent.putExtra("idChat", idChat);
+        intent.putExtra("idNotification", idNotification);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        RemoteInput remoteInput = new RemoteInput.Builder(NOTIFICATION_REPLY).setLabel("Tu mensaje...").build();
+
+        final NotificationCompat.Action action = new NotificationCompat.Action.Builder(
+                R.mipmap.ic_launcher,
+                "Responder",
+                pendingIntent)
+                .addRemoteInput(remoteInput)
+                .build();
+
         Gson gson = new Gson();
         final Message[] messages = gson.fromJson(messagesJSON, Message[].class);
 
@@ -89,7 +115,8 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
                                                                         usernameReceiver,
                                                                         lastMessage,
                                                                         bitmapSender,
-                                                                        bitmapReceiver
+                                                                        bitmapReceiver,
+                                                                        action
                                                                 );
                                                         notificationHelper.getManager().notify(idNotification, builder.build());
                                                     }
@@ -122,4 +149,5 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
 
 
     }
+
 }

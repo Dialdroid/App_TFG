@@ -408,6 +408,9 @@ public class ChatActivity extends AppCompatActivity {
         data.put("usernameReceiver", mUsernameChat.toUpperCase());
         data.put("imageSender", mImageSender);
         data.put("imageReceiver", mImageReceiver);
+        data.put("idSender", message.getIdSender());
+        data.put("idReceiver", message.getIdReceiver());
+        data.put("idChat", message.getIdChat());
 
         String idSender = "";
         if (mAuthProvider.getUID().equals(mExtraIdUser1)) {
@@ -468,6 +471,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
+
 }
 
 
