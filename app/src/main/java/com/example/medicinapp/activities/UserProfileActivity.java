@@ -29,6 +29,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
@@ -56,6 +57,8 @@ public class UserProfileActivity extends AppCompatActivity {
     String mExtraIdUser;
 
     MyPostsAdapter mAdapter;
+
+    ListenerRegistration mListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,18 +138,28 @@ public class UserProfileActivity extends AppCompatActivity {
         ViewedMessageHelper.updateOnline(false, UserProfileActivity.this);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mListener != null) {
+            mListener.remove();
+        }
+    }
+
     private void checkIfExistPost() {
-        mPostProvider.getPostbyUser(mExtraIdUser).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        mListener = mPostProvider.getPostbyUser(mExtraIdUser).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                int numberPost = queryDocumentSnapshots.size();
-                if (numberPost > 0) {
-                    mTextViewPostExist.setText("Publicaciones");
-                    mTextViewPostExist.setTextColor(Color.BLUE);
-                }
-                else {
-                    mTextViewPostExist.setText("No hay publicaciones");
-                    mTextViewPostExist.setTextColor(Color.GRAY);
+                if (queryDocumentSnapshots != null) {
+                    int numberPost = queryDocumentSnapshots.size();
+                    if (numberPost > 0) {
+                        mTextViewPostExist.setText("Publicaciones");
+                        mTextViewPostExist.setTextColor(Color.BLUE);
+                    }
+                    else {
+                        mTextViewPostExist.setText("No hay publicaciones");
+                        mTextViewPostExist.setTextColor(Color.GRAY);
+                    }
                 }
             }
         });

@@ -47,6 +47,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
@@ -95,6 +96,8 @@ public class PostDetailActivity extends AppCompatActivity {
     Toolbar mToolbar;
 
     String mIdUser = "";
+
+    ListenerRegistration mListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,15 +154,17 @@ public class PostDetailActivity extends AppCompatActivity {
     }
 
     private void getNumberLikes() {
-        mLikesProvider.getLikesByPost(mExtraPostId).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        mListener = mLikesProvider.getLikesByPost(mExtraPostId).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                int numberLikes = queryDocumentSnapshots.size();
-                if (numberLikes == 1) {
-                    mTextViewLikes.setText(numberLikes + " Me gusta");
-                }
-                else {
-                    mTextViewLikes.setText(numberLikes + " Me gustas");
+                if (queryDocumentSnapshots != null) {
+                    int numberLikes = queryDocumentSnapshots.size();
+                    if (numberLikes == 1) {
+                        mTextViewLikes.setText(numberLikes + " Me gusta");
+                    }
+                    else {
+                        mTextViewLikes.setText(numberLikes + " Me gustas");
+                    }
                 }
             }
         });
@@ -190,6 +195,14 @@ public class PostDetailActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         ViewedMessageHelper.updateOnline(false, PostDetailActivity.this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mListener != null) {
+            mListener.remove();
+        }
     }
 
     private void showDialogComment() {

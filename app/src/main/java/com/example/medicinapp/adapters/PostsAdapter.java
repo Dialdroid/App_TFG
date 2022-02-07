@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
@@ -39,6 +40,7 @@ public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.Vi
     UserProvider mUserProvider;
     LikesProvider mLikesProvider;
     AuthProvider mAuthProvider;
+    ListenerRegistration mListener;
 
     public PostsAdapter(FirestoreRecyclerOptions<Post> options, Context context) {
         super(options);
@@ -87,11 +89,14 @@ public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.Vi
     }
 
     private void getNumberLikesByPost(String idPost, final ViewHolder holder) {
-        mLikesProvider.getLikesByPost(idPost).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        mListener = mLikesProvider.getLikesByPost(idPost).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                int numberLikes = queryDocumentSnapshots.size();
-                holder.textViewLike.setText(String.valueOf(numberLikes) + " Me gustas");
+                if (queryDocumentSnapshots != null){
+                    int numberLikes = queryDocumentSnapshots.size();
+                    holder.textViewLike.setText(String.valueOf(numberLikes) + " Me gustas");
+
+                }
             }
         });
     }
@@ -143,6 +148,10 @@ public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.Vi
                 }
             }
         });
+    }
+
+    public  ListenerRegistration getListener(){
+        return mListener;
     }
 
     @NonNull
