@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -62,6 +63,7 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
     private void showNotificationMessage(Map<String, String> data) {
         final String imageSender = data.get("imageSender");
         final String imageReceiver = data.get("imageReceiver");
+        Log.d("ENTRO", "NUEVO MENSAJE");
         getImageSender(data, imageSender, imageReceiver);
     }
 
@@ -122,6 +124,8 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
         final String usernameReceiver = data.get("usernameReceiver");
         final String lastMessage = data.get("lastMessage");
         String messagesJSON = data.get("messages");
+        final String imageSender = data.get("imageSender");
+        final String imageReceiver = data.get("imageReceiver");
 
         final String idSender = data.get("idSender");
         final String idReceiver = data.get("idReceiver");
@@ -133,11 +137,13 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
         intent.putExtra("idReceiver", idReceiver);
         intent.putExtra("idChat", idChat);
         intent.putExtra("idNotification", idNotification);
+        intent.putExtra("usernameSender", usernameSender);
+        intent.putExtra("usernameReceiver", usernameReceiver);
+        intent.putExtra("imageSender", imageSender);
+        intent.putExtra("imageReceiver", imageReceiver);
+
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
         RemoteInput remoteInput = new RemoteInput.Builder(NOTIFICATION_REPLY).setLabel("Tu mensaje...").build();
-
-
 
         final NotificationCompat.Action action = new NotificationCompat.Action.Builder(
                 R.mipmap.ic_launcher,
