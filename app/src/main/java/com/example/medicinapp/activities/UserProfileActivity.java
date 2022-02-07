@@ -22,6 +22,7 @@ import com.example.medicinapp.models.Post;
 import com.example.medicinapp.providers.AuthProvider;
 import com.example.medicinapp.providers.PostProvider;
 import com.example.medicinapp.providers.UserProvider;
+import com.example.medicinapp.utils.ViewedMessageHelper;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -119,12 +120,19 @@ public class UserProfileActivity extends AppCompatActivity {
         mAdapter = new MyPostsAdapter(options, UserProfileActivity.this);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.startListening();
+        ViewedMessageHelper.updateOnline(true, UserProfileActivity.this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
         mAdapter.stopListening();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ViewedMessageHelper.updateOnline(false, UserProfileActivity.this);
     }
 
     private void checkIfExistPost() {

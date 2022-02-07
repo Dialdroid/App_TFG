@@ -17,6 +17,7 @@ import com.example.medicinapp.fragments.ProfileFragment;
 import com.example.medicinapp.providers.AuthProvider;
 import com.example.medicinapp.providers.TokenProvider;
 import com.example.medicinapp.providers.UserProvider;
+import com.example.medicinapp.utils.ViewedMessageHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
@@ -44,24 +45,17 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        updateOnline(true);
+        ViewedMessageHelper.updateOnline(true, HomeActivity.this);
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        updateOnline(false);
-    }
+
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d("ENTRO", "ON PAUSE");
+        ViewedMessageHelper.updateOnline(false, HomeActivity.this);
     }
 
-    private void updateOnline(boolean status) {
-        mUsersProvider.updateOnline(mAuthProvider.getUID(), status);
-    }
 
     public void openFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

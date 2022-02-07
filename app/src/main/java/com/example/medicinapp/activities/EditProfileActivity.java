@@ -26,6 +26,7 @@ import com.example.medicinapp.providers.AuthProvider;
 import com.example.medicinapp.providers.ImageProvider;
 import com.example.medicinapp.providers.UserProvider;
 import com.example.medicinapp.utils.FileUtil;
+import com.example.medicinapp.utils.ViewedMessageHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -133,6 +134,20 @@ public class EditProfileActivity extends AppCompatActivity {
         });
 
         getUser();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        ViewedMessageHelper.updateOnline(true, EditProfileActivity.this);
+    }
+
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ViewedMessageHelper.updateOnline(false, EditProfileActivity.this);
     }
 
     private void getUser(){

@@ -18,6 +18,7 @@ import com.example.medicinapp.fragments.BinnacleFragment;
 import com.example.medicinapp.models.SliderItem;
 import com.example.medicinapp.providers.AuthProvider;
 import com.example.medicinapp.providers.BitacoraProvider;
+import com.example.medicinapp.utils.ViewedMessageHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -80,6 +81,20 @@ public class BitacoraDetailActivity extends AppCompatActivity {
 
         getBitacora();
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        ViewedMessageHelper.updateOnline(true, BitacoraDetailActivity.this);
+    }
+
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ViewedMessageHelper.updateOnline(false, BitacoraDetailActivity.this);
     }
 
     private void showConfirmDelete(final String mExtraBitacoraId) {

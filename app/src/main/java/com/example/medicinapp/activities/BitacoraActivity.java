@@ -17,6 +17,7 @@ import com.example.medicinapp.fragments.BinnacleFragment;
 import com.example.medicinapp.models.Bitacora;
 import com.example.medicinapp.providers.AuthProvider;
 import com.example.medicinapp.providers.BitacoraProvider;
+import com.example.medicinapp.utils.ViewedMessageHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -94,6 +95,19 @@ public class BitacoraActivity extends AppCompatActivity implements View.OnClickL
             }
         });
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        ViewedMessageHelper.updateOnline(true, BitacoraActivity.this);
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ViewedMessageHelper.updateOnline(false, BitacoraActivity.this);
     }
 
     private void saveEmotion() {

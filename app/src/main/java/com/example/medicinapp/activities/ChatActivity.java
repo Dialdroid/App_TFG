@@ -29,6 +29,7 @@ import com.example.medicinapp.providers.ChatsProvider;
 import com.example.medicinapp.providers.MessagesProvider;
 import com.example.medicinapp.providers.UserProvider;
 import com.example.medicinapp.utils.RelativeTime;
+import com.example.medicinapp.utils.ViewedMessageHelper;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -110,12 +111,20 @@ public class ChatActivity extends AppCompatActivity {
         if (mAdapter != null) {
             mAdapter.startListening();
         }
+        ViewedMessageHelper.updateOnline(true, ChatActivity.this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
         mAdapter.stopListening();
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ViewedMessageHelper.updateOnline(false, ChatActivity.this);
     }
 
     private void getMessageChat() {
