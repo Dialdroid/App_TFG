@@ -71,10 +71,10 @@ public class HomeActivity extends AppCompatActivity {
                        openFragment(new HomeFragment());
                    } else if(item.getItemId() == R.id.item_chat) {
                        openFragment(new ChatsFragment());
-                   } else if(item.getItemId() == R.id.item_profile) {
-                       openFragment(new ProfileFragment());
                    } else if(item.getItemId() == R.id.item_book) {
                        openFragment(new BinnacleFragment());
+                   } else if(item.getItemId() == R.id.item_profile) {
+                       openFragment(new ProfileFragment());
                    }
                    return true;
                 }

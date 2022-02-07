@@ -9,11 +9,11 @@
         android:icon="@drawable/ic_chat"
         android:title="Chats" />
     <item
-        android:id="@+id/item_profile"
-        android:icon="@drawable/ic_profile"
-        android:title="Perfil" />
-    <item
         android:id="@+id/item_book"
         android:icon="@drawable/ic_bitacora"
         android:title="Bitacora" />
+    <item
+        android:id="@+id/item_profile"
+        android:icon="@drawable/ic_profile"
+        android:title="Perfil" />
 </menu>
