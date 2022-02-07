@@ -24,85 +24,106 @@ public class NotificationHelper extends ContextWrapper {
     private static final String CHANNEL_ID = "com.example.medicinapp";
     private static final String CHANNEL_NAME = "MedicinApp";
 
-    private NotificationManager manager;
 
-    public NotificationHelper(Context context) {
-        super(context);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createChannels();
+        private NotificationManager manager;
+
+        public NotificationHelper(Context context) {
+            super(context);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                createChannels();
+            }
         }
-    }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void createChannels() {
-        NotificationChannel notificationChannel = new NotificationChannel(
-                CHANNEL_ID,
-                CHANNEL_NAME,
-                NotificationManager.IMPORTANCE_HIGH
-        );
-        notificationChannel.enableLights(true);
-        notificationChannel.enableVibration(true);
-        notificationChannel.setLightColor(Color.GRAY);
-        notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
-        getManager().createNotificationChannel(notificationChannel);
-    }
-
-    public NotificationManager getManager() {
-        if (manager == null) {
-            manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        private void createChannels() {
+            NotificationChannel notificationChannel = new NotificationChannel(
+                    CHANNEL_ID,
+                    CHANNEL_NAME,
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            notificationChannel.enableLights(true);
+            notificationChannel.enableVibration(true);
+            notificationChannel.setLightColor(Color.GRAY);
+            notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+            getManager().createNotificationChannel(notificationChannel);
         }
-        return manager;
-    }
 
-    public NotificationCompat.Builder getNotification(String title, String body) {
-        return new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
-                .setContentTitle(title)
-                .setContentText(body)
-                .setAutoCancel(true)
-                .setColor(Color.GRAY)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(body).setBigContentTitle(title));
-    }
+        public NotificationManager getManager() {
+            if (manager == null) {
+                manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            }
+            return manager;
+        }
 
-    public NotificationCompat.Builder getNotificationMessage(
-            Message[] messages,
-            String usernameSender,
-            String usernameReceiver,
-            String lastMessage,
-            Bitmap bitmapSender,
-            Bitmap bitmapReceiver,
-            NotificationCompat.Action action) {
+        public NotificationCompat.Builder getNotification(String title, String body) {
+            return new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
+                    .setContentTitle(title)
+                    .setContentText(body)
+                    .setAutoCancel(true)
+                    .setColor(Color.GRAY)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(body).setBigContentTitle(title));
+        }
 
-        Person person1 = new Person.Builder()
-                .setName(usernameReceiver)
-                .setIcon(IconCompat.createWithBitmap(bitmapReceiver))
-                .build();
+        public NotificationCompat.Builder getNotificationMessage(
+                Message[] messages,
+                String usernameSender,
+                String usernameReceiver,
+                String lastMessage,
+                Bitmap bitmapSender,
+                Bitmap bitmapReceiver,
+                NotificationCompat.Action action) {
 
-        Person person2 = new Person.Builder()
-                .setName(usernameSender)
-                .setIcon(IconCompat.createWithBitmap(bitmapSender))
-                .build();
+            Person person1 = null;
+            if (bitmapReceiver == null) {
+                person1 = new Person.Builder()
+                        .setName(usernameReceiver)
+                        .setIcon(IconCompat.createWithResource(getApplicationContext(), R.drawable.icono_prototipo))
+                        .build();
+            }
+            else {
+                person1 = new Person.Builder()
+                        .setName(usernameReceiver)
+                        .setIcon(IconCompat.createWithBitmap(bitmapReceiver))
+                        .build();
+            }
 
-        NotificationCompat.MessagingStyle messagingStyle = new NotificationCompat.MessagingStyle(person1);
-        NotificationCompat.MessagingStyle.Message message1 = new
-                NotificationCompat.MessagingStyle.Message(
-                lastMessage,
-                new Date().getTime(),
-                person1);
-        messagingStyle.addMessage(message1);
+            Person person2 = null;
 
-        for (Message m: messages) {
-            NotificationCompat.MessagingStyle.Message message2 = new
+            if (bitmapSender == null) {
+                person2 = new Person.Builder()
+                        .setName(usernameSender)
+                        .setIcon(IconCompat.createWithResource(getApplicationContext(), R.drawable.icono_prototipo))
+                        .build();
+            }
+            else {
+                person2 = new Person.Builder()
+                        .setName(usernameSender)
+                        .setIcon(IconCompat.createWithBitmap(bitmapSender))
+                        .build();
+            }
+
+            NotificationCompat.MessagingStyle messagingStyle = new NotificationCompat.MessagingStyle(person1);
+            NotificationCompat.MessagingStyle.Message message1 = new
                     NotificationCompat.MessagingStyle.Message(
-                    m.getMessage(),
-                    m.getTimestamp(),
-                    person2);
-            messagingStyle.addMessage(message2);
-        }
+                    lastMessage,
+                    new Date().getTime(),
+                    person1);
+            messagingStyle.addMessage(message1);
 
-        return new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setStyle(messagingStyle)
-                .addAction(action);
+            for (Message m: messages) {
+                NotificationCompat.MessagingStyle.Message message2 = new
+                        NotificationCompat.MessagingStyle.Message(
+                        m.getMessage(),
+                        m.getTimestamp(),
+                        person2);
+                messagingStyle.addMessage(message2);
+            }
+
+            return new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setStyle(messagingStyle)
+                    .addAction(action);
+        }
     }
-}
+
