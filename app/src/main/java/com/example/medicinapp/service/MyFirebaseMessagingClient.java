@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
 import com.example.medicinapp.channel.NotificationHelper;
+import com.example.medicinapp.models.Message;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -27,8 +29,7 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
         String body = data.get("body");
         if (title != null) {
             if (title.equals("NUEVO MENSAJE")) {
-                int idNotification = Integer.parseInt(data.get("idNotification"));
-                showNotificationMessage(title, body, idNotification);
+                showNotificationMessage(data);
             }
             else {
                 showNotification(title, body);
@@ -44,10 +45,17 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
         notificationHelper.getManager().notify(n, builder.build());
     }
 
-    private void showNotificationMessage(String title, String body, int idNotificationChat) {
+    private void showNotificationMessage(Map<String, String> data) {
+        String title = data.get("title");
+        String body = data.get("body");
+        String messagesJSON = data.get("messages");
+        int idNotification = Integer.parseInt(data.get("idNotification"));
+        Gson gson = new Gson();
+        Message[] messages = gson.fromJson(messagesJSON, Message[].class);
+
         NotificationHelper notificationHelper = new NotificationHelper(getBaseContext());
-        NotificationCompat.Builder builder = notificationHelper.getNotification(title, body);
-        notificationHelper.getManager().notify(idNotificationChat, builder.build());
+        NotificationCompat.Builder builder = notificationHelper.getNotificationMessage(messages);
+        notificationHelper.getManager().notify(idNotification, builder.build());
     }
 
 }
