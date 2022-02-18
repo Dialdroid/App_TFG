@@ -135,8 +135,6 @@ public class BitacoraActivity extends AppCompatActivity implements View.OnClickL
                 mDialog.dismiss();
                 if (task.isSuccessful()){
                     clearBitacora();
-                    Intent intent = new Intent(BitacoraActivity.this, BinnacleFragment.class);
-                    startActivity(intent);
                     Toast.makeText(BitacoraActivity.this, "La informacion se almaceno correctamente", Toast.LENGTH_SHORT).show();
                 }
                 else {

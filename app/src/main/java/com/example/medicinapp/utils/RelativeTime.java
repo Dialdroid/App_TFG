@@ -6,7 +6,7 @@ import android.content.Context;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-//este paquete lo saqué de GitHub
+//este paquete lo saqué de GitHub y sirve pra hacer calculos de tiempo
 public class RelativeTime extends Application {
 
     private static final int SECOND_MILLIS = 1000;
