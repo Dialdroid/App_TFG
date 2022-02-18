@@ -99,9 +99,9 @@ public class RegisterActivity extends AppCompatActivity {
                 else{
                     Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_LONG).show();
                 }
-                Toast.makeText(this, "Insetaste todos los campos y el email es valido", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Insertaste todos los campos y el email es valido", Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(this, "Insetaste todos los campos pero el email no es valido", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Insertaste todos los campos pero el email no es valido", Toast.LENGTH_LONG).show();
             }
         } else {
             Toast.makeText(this, "Para continuar inserta todos los campos", Toast.LENGTH_LONG).show();

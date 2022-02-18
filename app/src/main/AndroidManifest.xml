@@ -17,16 +17,16 @@
         android:roundIcon="@mipmap/ic_launcher_round_app"
         android:supportsRtl="true"
         android:theme="@style/Theme.MedicinApp">
-        <activity android:name=".activities.ChatActivity"></activity>
-        <activity android:name=".activities.BitacoraDetailActivity" />
-        <activity android:name=".activities.BitacoraActivity" />
+        <activity android:name=".activities.ChatActivity" android:screenOrientation="portrait" ></activity>
+        <activity android:name=".activities.BitacoraDetailActivity" android:screenOrientation="portrait"  />
+        <activity android:name=".activities.BitacoraActivity" android:screenOrientation="portrait"  />
         <activity
             android:name=".activities.UserProfileActivity"
-            android:parentActivityName=".activities.PostDetailActivity" />
+            android:parentActivityName=".activities.PostDetailActivity" android:screenOrientation="portrait" />
         <activity
             android:name=".activities.PostDetailActivity"
-            android:parentActivityName=".activities.HomeActivity" />
-        <activity android:name=".activities.EditProfileActivity" />
+            android:parentActivityName=".activities.HomeActivity" android:screenOrientation="portrait"  />
+        <activity android:name=".activities.EditProfileActivity" android:screenOrientation="portrait"  />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -38,11 +38,11 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".activities.PostActivity" />
-        <activity android:name=".activities.CompleteProfileActivity" />
-        <activity android:name=".activities.HomeActivity" />
-        <activity android:name=".activities.RegisterActivity" />
-        <activity android:name=".activities.MainActivity">
+        <activity android:name=".activities.PostActivity" android:screenOrientation="portrait"  />
+        <activity android:name=".activities.CompleteProfileActivity" android:screenOrientation="portrait"  />
+        <activity android:name=".activities.HomeActivity" android:screenOrientation="portrait"  />
+        <activity android:name=".activities.RegisterActivity" android:screenOrientation="portrait" />
+        <activity android:name=".activities.MainActivity" android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
